@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         loginButton.setOnClickListener(v -> {
-          /*  loginButton.setEnabled(false);
+            loginButton.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
 
 
@@ -49,18 +49,18 @@ public class MainActivity extends AppCompatActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(result -> {
                         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                        loginButton.setEnabled(true);
+                        loginButton.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
-                    });*/
+                    });
 
-            MyServer.getInstance().welcome()
+            /*MyServer.getInstance().welcome()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(welcomeAnswer -> {
                         Toast.makeText(this, welcomeAnswer.text, Toast.LENGTH_LONG).show();
                     }, error -> {
-error.printStackTrace();
-                    });
+                        error.printStackTrace();
+                    });*/
         });
 
     }
