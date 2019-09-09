@@ -3,6 +3,7 @@ package com.wg.messengerclient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 @SuppressLint("CheckResult")
 public class MainActivity extends AppCompatActivity {
     private Button loginButton;
+    private Button regButton;
     private EditText loginTextField;
     private EditText passwordTextField;
     private ProgressBar progressBar;
@@ -28,15 +30,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loginButton = findViewById(R.id.loginButton);
+        regButton = findViewById(R.id.regButton);
         loginTextField = findViewById(R.id.loginField);
         passwordTextField = findViewById(R.id.passwordField);
         progressBar = findViewById(R.id.progress_bar);
 
-
         loginButton.setOnClickListener(v -> {
             loginButton.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
-
 
             Observable.fromCallable(() -> {
                         try {
@@ -61,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
                     }, error -> {
                         error.printStackTrace();
                     });*/
+        });
+
+        regButton.setOnClickListener(v -> {
+            Intent regActivity = new Intent(this, Registration.class);
+            startActivity(regActivity);
         });
 
     }

@@ -3,5 +3,6 @@
     <string name="passwordField">password</string>
     <string name="loginField">login</string>
     <string name="loginButton">Войти</string>
+    <string name="regButton">Зарегестрироваться</string>
     <string name="forgotPassButton">Забыли пароль? Идите, пока-что, нах*й.</string>
 </resources>

@@ -9,21 +9,41 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="248dp"
-        android:layout_height="56dp"
+        android:layout_width="303dp"
+        android:layout_height="39dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/round_element"
         android:fontFamily="monospace"
         android:text="@string/loginButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordField"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/regButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="307dp"
+        android:layout_height="38dp"
+        android:background="@drawable/transparant_background"
+        android:fontFamily="monospace"
+        android:text="@string/regButton"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintVertical_bias="0.071"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
@@ -74,8 +94,6 @@
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/bc_lightBlue"
 
-        android:drawableLeft="@drawable/airplane"
-
         android:textCursorDrawable="@drawable/cursor"
         android:textSize="21sp"
         app:layout_constraintBottom_toTopOf="@+id/passwordField"
@@ -104,9 +122,9 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="@android:style/Widget.Material.ProgressBar"
-        android:layout_width="60dp"
-        android:layout_height="56dp"
+        style="@android:style/Widget.Material.Light.ProgressBar"
+        android:layout_width="78dp"
+        android:layout_height="61dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/colorPrimaryDark"
         android:indeterminateTintMode="src_atop"
@@ -116,6 +134,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordField"
-        app:layout_constraintVertical_bias="0.096" />
+        app:layout_constraintVertical_bias="0.063" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

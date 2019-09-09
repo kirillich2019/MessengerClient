@@ -1,6 +1,4 @@
 <resources>
-
-
     <style name="MyTheme" parent="Theme.AppCompat.DayNight" >
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -8,9 +6,19 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-       <!-- <item name="android:windowFullscreen">true</item>-->
         <item name="android:statusBarColor">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
     </style>
 
+    <style name="MyTheme.RegTheme" >
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
 
+        <item name="android:statusBarColor">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
+    </style>
 </resources>
