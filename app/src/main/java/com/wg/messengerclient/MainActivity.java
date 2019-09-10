@@ -17,6 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 
 @SuppressLint("CheckResult")
 public class MainActivity extends AppCompatActivity {
+    private MyServer server;
+
     private Button loginButton;
     private Button regButton;
     private EditText loginTextField;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        server = MyServer.getInstance();
+
         loginButton = findViewById(R.id.loginButton);
         regButton = findViewById(R.id.regButton);
         loginTextField = findViewById(R.id.loginField);
@@ -39,36 +43,30 @@ public class MainActivity extends AppCompatActivity {
             loginButton.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
 
-            Observable.fromCallable(() -> {
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                        }
-                        return "hellow";
-                    })
+            server.login("\"" + loginTextField.getText().toString() + "\"", "\"" + passwordTextField.getText().toString() + "\"")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+                    .subscribe(loginAnswer -> {
+                        if (loginAnswer.error == 0){
+                            Toast.makeText(this, "token:" + loginAnswer.token, Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(this, "errorCode:" + loginAnswer.error, Toast.LENGTH_LONG).show();
+                        }
+
+                        loginButton.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                    }, error -> {
+                        error.printStackTrace();
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
                         loginButton.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     });
-
-            /*MyServer.getInstance().welcome()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(welcomeAnswer -> {
-                        Toast.makeText(this, welcomeAnswer.text, Toast.LENGTH_LONG).show();
-                    }, error -> {
-                        error.printStackTrace();
-                    });*/
         });
 
         regButton.setOnClickListener(v -> {
             Intent regActivity = new Intent(this, Registration.class);
             startActivity(regActivity);
         });
-
     }
-
 }
