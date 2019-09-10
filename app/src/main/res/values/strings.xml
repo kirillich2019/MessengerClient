@@ -5,4 +5,6 @@
     <string name="loginButton">Войти</string>
     <string name="regButton">Зарегестрироваться</string>
     <string name="forgotPassButton">Забыли пароль? Идите, пока-что, нах*й.</string>
+    <string name="loginFieldIsEmpty">Заполните поле логина.</string>
+    <string name="passFieldIsEmpty">Введите пароль.</string>
 </resources>

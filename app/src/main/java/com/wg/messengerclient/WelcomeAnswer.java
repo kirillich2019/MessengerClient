@@ -1,5 +1,9 @@
 package com.wg.messengerclient;
 
+import com.wg.messengerclient.models.server_answers.AnswerWithError;
+
 public class WelcomeAnswer extends AnswerWithError {
-    public String welcomeMessage;
+    private String text;
+
+    public String getText() { return text; }
 }
