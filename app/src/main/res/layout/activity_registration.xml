@@ -4,100 +4,188 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registration">
+    tools:context=".RegistrationActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:cardBackgroundColor="@color/backgroundColor"
+        app:cardBackgroundColor="@color/reg_background"
         app:cardCornerRadius="20dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        tools:layout_editor_absoluteY="187dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="419dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="9dp">
 
+            <Button
+                android:id="@+id/regButton"
+                android:layout_width="304dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/round_element"
+                android:fontFamily="monospace"
+                android:text="@string/regButton"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reg_surname"
+                app:layout_constraintVertical_chainStyle="packed" />
+
             <EditText
-                android:id="@+id/loginField2"
+                android:id="@+id/reg_login"
                 android:layout_width="305dp"
                 android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+
                 android:background="@drawable/text_view_border"
+
                 android:ems="10"
                 android:fontFamily="monospace"
                 android:hint="Логин"
                 android:paddingLeft="17dp"
+
                 android:paddingEnd="17dp"
                 android:paddingBottom="2pt"
+
                 android:singleLine="true"
                 android:textAlignment="viewStart"
-
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/bc_lightBlue"
                 android:textColorHint="@color/bc_lightBlue"
-
-                android:textCursorDrawable="@drawable/cursor"
+                android:textCursorDrawable="@drawable/cursor1"
                 android:textSize="21sp"
-                tools:layout_editor_absoluteX="45dp"
-                tools:layout_editor_absoluteY="340dp" />
+                app:layout_constraintBottom_toTopOf="@+id/reg_pass"
+                app:layout_constraintEnd_toEndOf="@id/regButton"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/regButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.16000003"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:hint="Логин" />
 
             <EditText
-                android:id="@+id/passwordField3"
+                android:id="@+id/reg_surname"
                 android:layout_width="305dp"
                 android:layout_height="55dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/text_view_border"
                 android:ems="10"
                 android:fontFamily="monospace"
-
-                android:hint="Пароль"
-                android:inputType="textPassword"
-
-                android:paddingLeft="17dp"
-                android:paddingEnd="17dp"
-                android:paddingBottom="2pt"
-                android:singleLine="true"
-                android:textAlignment="viewStart"
-
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/bc_lightBlue"
-
-                android:textCursorDrawable="@drawable/cursor"
-                android:textSize="21sp"
-                tools:hint="Пароль"
-                tools:layout_editor_absoluteX="45dp"
-                tools:layout_editor_absoluteY="209dp" />
-
-            <EditText
-                android:id="@+id/retry_passwordField"
-                android:layout_width="305dp"
-                android:layout_height="55dp"
-                android:background="@drawable/text_view_border"
-                android:ems="10"
-
-                android:fontFamily="monospace"
-                android:hint="Пароль"
-
-                android:inputType="textPassword"
+                android:hint="Фамилия"
                 android:paddingLeft="17dp"
                 android:paddingEnd="17dp"
                 android:paddingBottom="2pt"
                 android:singleLine="true"
 
                 android:textAlignment="viewStart"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/bc_lightBlue"
 
                 android:textColorHint="@color/bc_lightBlue"
-                android:textCursorDrawable="@drawable/cursor"
+                android:textCursorDrawable="@drawable/cursor1"
                 android:textSize="21sp"
-                tools:hint="Повторите пароль"
-                tools:layout_editor_absoluteX="45dp"
-                tools:layout_editor_absoluteY="272dp" />
+                app:layout_constraintBottom_toTopOf="@id/regButton"
+                app:layout_constraintEnd_toEndOf="@id/regButton"
+                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintStart_toStartOf="@id/regButton"
+                app:layout_constraintTop_toBottomOf="@+id/reg_name"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <EditText
+                android:id="@+id/reg_pass"
+                android:layout_width="305dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/text_view_border"
+
+                android:ems="10"
+                android:fontFamily="monospace"
+
+                android:hint="Пароль"
+                android:paddingLeft="17dp"
+                android:paddingEnd="17dp"
+                android:paddingBottom="2pt"
+
+                android:singleLine="true"
+                android:textAlignment="viewStart"
+
+                android:textColor="@color/bc_lightBlue"
+                android:textColorHint="@color/bc_lightBlue"
+                android:textCursorDrawable="@drawable/cursor1"
+                android:textSize="21sp"
+                app:layout_constraintBottom_toTopOf="@+id/reg_name"
+                app:layout_constraintEnd_toEndOf="@id/regButton"
+                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintStart_toStartOf="@id/regButton"
+                app:layout_constraintTop_toBottomOf="@+id/reg_login"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+
+            <EditText
+                android:id="@+id/reg_name"
+                android:layout_width="305dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/text_view_border"
+
+                android:ems="10"
+                android:fontFamily="monospace"
+
+                android:hint="Имя"
+                android:paddingLeft="17dp"
+                android:paddingEnd="17dp"
+                android:paddingBottom="2pt"
+
+                android:singleLine="true"
+                android:textAlignment="viewStart"
+
+                android:textColor="@color/bc_lightBlue"
+                android:textColorHint="@color/bc_lightBlue"
+                android:textCursorDrawable="@drawable/cursor1"
+                android:textSize="21sp"
+                app:layout_constraintBottom_toTopOf="@+id/reg_surname"
+                app:layout_constraintEnd_toEndOf="@id/regButton"
+                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintStart_toStartOf="@id/regButton"
+                app:layout_constraintTop_toBottomOf="@+id/reg_pass"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/round_element"
+                android:fontFamily="monospace"
+                android:src="@drawable/close"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/regButton"
+                app:layout_constraintVertical_bias="0.0" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

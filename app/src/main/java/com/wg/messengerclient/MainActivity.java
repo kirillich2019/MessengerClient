@@ -37,34 +37,30 @@ public class MainActivity extends AppCompatActivity implements ILoginView {
         loginTextField = findViewById(R.id.loginField);
         passwordTextField = findViewById(R.id.passwordField);
         progressBar = findViewById(R.id.progress_bar);
-
         loginButton.setOnClickListener(v -> loginPresenter.tryLogin(loginTextField.getText().toString(), passwordTextField.getText().toString()));
 
         regButton.setOnClickListener(v -> {
-            Intent regActivity = new Intent(this, Registration.class);
+            Intent regActivity = new Intent(this, RegistrationActivity.class);
             startActivity(regActivity);
         });
     }
 
     @Override
-    public void openNextScreen() {
-
-    }
-
-    @Override
-    public void showLoginError(String errorText) {
+    public void showError(String errorText) {
         Toast.makeText(this, errorText, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showLoading() {
         loginButton.setVisibility(View.INVISIBLE);
+        loginButton.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void closeLoading() {
         loginButton.setVisibility(View.VISIBLE);
+        loginButton.setEnabled(true);
         progressBar.setVisibility(View.GONE);
     }
 }

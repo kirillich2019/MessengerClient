@@ -1,4 +1,4 @@
-package com.wg.messengerclient;
+package com.wg.messengerclient.Server;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.Retrofit;

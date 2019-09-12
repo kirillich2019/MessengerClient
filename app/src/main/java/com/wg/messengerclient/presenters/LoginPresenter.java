@@ -9,12 +9,10 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.wg.messengerclient.MessangerServerApi;
 import com.wg.messengerclient.R;
-import com.wg.messengerclient.Server;
+import com.wg.messengerclient.Server.Server;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,17 +26,17 @@ public class LoginPresenter implements LifecycleObserver {
     }
 
     //todo проверка на существование токена в базе
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private void onViewLoading() {
-        loginView.showLoginError("старт");
+        loginView.showError("старт");
     }
 
     @SuppressLint("CheckResult")
     public void tryLogin(@NonNull String login, @NonNull String password) {
         if (TextUtils.isEmpty(login)) {
-            loginView.showLoginError(appContext.getString(R.string.loginFieldIsEmpty));
+            loginView.showError(appContext.getString(R.string.loginFieldIsEmpty));
         } else if (TextUtils.isEmpty(password)) {
-            loginView.showLoginError(appContext.getString(R.string.passFieldIsEmpty));
+            loginView.showError(appContext.getString(R.string.passFieldIsEmpty));
         } else {
             loginView.showLoading();
 
@@ -47,17 +45,21 @@ public class LoginPresenter implements LifecycleObserver {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(loginAnswer -> {
                         if (loginAnswer.getError() == 0) {
-                            loginView.showLoginError(loginAnswer.getToken());
+                            loginView.showError(loginAnswer.getToken());
                         } else {
-                            loginView.showLoginError(Integer.toString(loginAnswer.getError()));
+                            loginView.showError(Integer.toString(loginAnswer.getError()));
                         }
 
                         loginView.closeLoading();
                     }, error -> {
-                        loginView.showLoginError("Ошибка доступа к серверу.");
+                        loginView.showError("Ошибка доступа к серверу.");
 
                         loginView.closeLoading();
                     });
         }
+    }
+
+    private void openNextSrcreen(){
+
     }
 }

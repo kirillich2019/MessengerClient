@@ -15,7 +15,11 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".Registration" android:theme="@style/MyTheme.RegTheme"></activity>
+        <activity android:name=".RegistrationActivity"
+            android:theme="@style/MyTheme.RegTheme"
+            android:parentActivityName=".MainActivity"
+            android:noHistory="false">
+        </activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>
