@@ -25,51 +25,69 @@ public class RegistrationPresenter implements LifecycleObserver {
     }
 
     @SuppressLint("CheckResult")
-    public void tryRegistration(@NonNull String login, @NonNull String password, @NonNull String firstName, @NonNull String lastName){
+    public void tryRegistration(@NonNull String login, @NonNull String password, @NonNull String confirmPassword, @NonNull String firstName, @NonNull String lastName){
+        login = login.trim();
+
         if(TextUtils.isEmpty(login)) {
             registrationView.showError("Введите логин.");
-        }else if(TextUtils.isEmpty(password)) {
-            registrationView.showError("Введите пароль.");
-        }else if(TextUtils.isEmpty(firstName)) {
-            registrationView.showError("Введите имя.");
-        }else if(TextUtils.isEmpty(lastName)) {
-            registrationView.showError("Введите фамилию.");
-        }else {
-            registrationView.showLoading();
-
-            regDisposable = Server.getInstance().registration(login, password, firstName, lastName)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(regAnswer -> {
-                        if (regAnswer.getError() == 0) {
-                            registrationView.showError(regAnswer.getToken());
-                        } else {
-                            Errors error = Errors.getErrorByCode(regAnswer.getError());
-                            if(error != null)
-                            {
-                                if(error.isMessageInClient()) {
-                                    registrationView.showError(error.getMessage());
-                                }
-                                else {
-                                    registrationView.showError(regAnswer.getError_text());
-                                }
-                            }
-                        }
-
-                        registrationView.closeLoading();
-                    }, error -> {
-                        registrationView.showError("Ошибка доступа к серверу.");
-
-                        registrationView.closeLoading();
-                    });
+            return;
         }
+
+        if(TextUtils.isEmpty(password)) {
+            registrationView.showError("Введите пароль.");
+            return;
+        }
+
+        password = password.trim();
+        confirmPassword = confirmPassword.trim();
+
+        if(!password.equals(confirmPassword)) {
+            registrationView.showError("Пароли не совпадают.");
+            return;
+        }
+
+        if(TextUtils.isEmpty(firstName)) {
+            registrationView.showError("Введите имя.");
+            return;
+        }
+
+        if(TextUtils.isEmpty(lastName)) {
+            registrationView.showError("Введите фамилию.");
+            return;
+        }
+
+        firstName = firstName.trim();
+        lastName = lastName.trim();
+
+        registrationView.showLoading();
+
+        regDisposable = Server.getInstance().registration(login, password, firstName, lastName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(regAnswer -> {
+                    if (regAnswer.getError() == 0) {
+                        registrationView.showError(regAnswer.getToken());
+                    } else {
+                        if(regAnswer.getError_text() != null){
+                            registrationView.showError(regAnswer.getError_text());
+                        }else {
+                            registrationView.showError(Errors.UNKNOWN_ERROR.getMessage());
+                        }
+                    }
+
+                    registrationView.closeLoading();
+                }, error -> {
+                    registrationView.showError(Errors.SERVER_ACCESS_ERROR.getMessage());
+
+                    registrationView.closeLoading();
+                });
     }
 
     private void openNextScreen(){
 
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     private void onClose(){
         if(regDisposable != null)
             regDisposable.dispose();

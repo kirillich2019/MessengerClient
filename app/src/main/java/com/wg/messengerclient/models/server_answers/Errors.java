@@ -1,14 +1,12 @@
 package com.wg.messengerclient.models.server_answers;
 
 public enum Errors {
-    LOGIN_TOO_SHORT(102),
-    LOGIN_TOO_LONG(103),
-    LOGIN_CONTAINS_WRONG_SYMBOLS(104),
-    PASSWORD_TOO_SHORT(105),
-    NAME_WRONG_LENGTH(106),
-    NAME_CONTAINS_WRONG_SYMBOLS(107),
-    SURNAME_WRONG_LENGTH(108),
-    SURNAME_CONTAINS_WRONG_SYMBOLS(109);
+    SERVER_ACCESS_ERROR(-2, "Ошибка доступа к серверу."),
+    UNKNOWN_ERROR(-1, "UNKNOWN_ERROR"),
+    NO_ERROR(0, ""),
+    WRONG_ARGS(1, "Неверные аргументы."),
+    UNKNOWN_TOKEN(2, "Нейзвестный токен."),
+    UNKNOWN_ID(3, "Нейзвестный id.");
 
     private int code;
     private String message;
@@ -17,21 +15,9 @@ public enum Errors {
         return message;
     }
 
-    public boolean isMessageInClient() {
-        return messageInClient;
-    }
-
-    private boolean messageInClient;
-
-    Errors(int code) {
-        this(code, "");
-        messageInClient = false;
-    }
-
     Errors(int code, String message) {
         this.code = code;
         this.message = message;
-        messageInClient = true;
     }
 
     public static Errors getErrorByCode(int errorCode) {

@@ -11,6 +11,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.Server.Server;
+import com.wg.messengerclient.models.server_answers.Errors;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,35 +29,43 @@ public class LoginPresenter implements LifecycleObserver {
     //todo проверка на существование токена в базе
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private void onViewLoading() {
-        loginView.showError("старт");
+
     }
 
     @SuppressLint("CheckResult")
     public void tryLogin(@NonNull String login, @NonNull String password) {
         if (TextUtils.isEmpty(login)) {
             loginView.showError(appContext.getString(R.string.loginFieldIsEmpty));
-        } else if (TextUtils.isEmpty(password)) {
-            loginView.showError(appContext.getString(R.string.passFieldIsEmpty));
-        } else {
-            loginView.showLoading();
-
-            Server.getInstance().login(login, password)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(loginAnswer -> {
-                        if (loginAnswer.getError() == 0) {
-                            loginView.showError(loginAnswer.getToken());
-                        } else {
-                            loginView.showError(Integer.toString(loginAnswer.getError()));
-                        }
-
-                        loginView.closeLoading();
-                    }, error -> {
-                        loginView.showError("Ошибка доступа к серверу.");
-
-                        loginView.closeLoading();
-                    });
+            return;
         }
+
+        if (TextUtils.isEmpty(password)) {
+            loginView.showError(appContext.getString(R.string.passFieldIsEmpty));
+            return;
+        }
+
+        login = login.trim();
+        password = password.trim();
+
+        loginView.showLoading();
+
+        Server.getInstance().login(login, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(loginAnswer -> {
+                    if (loginAnswer.getError() == 0) {
+                        loginView.showError(loginAnswer.getToken());
+                    } else {
+                        loginView.showError(Integer.toString(loginAnswer.getError()));
+                    }
+
+                    loginView.closeLoading();
+                }, error -> {
+                    loginView.showError(Errors.SERVER_ACCESS_ERROR.getMessage());
+
+                    loginView.closeLoading();
+                });
+
     }
 
     private void openNextSrcreen(){

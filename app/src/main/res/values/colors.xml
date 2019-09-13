@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#D81B60</color>
     <color name="bc_lightBlue">#64A8D1</color>
+    <color name="bc_lightBlue_a50">#8064A8D1</color>
     <color name="colorCursor">#FFFFFF</color>
     <color name="backgroundColor">#03436A</color>
     <color name="reg_background">#E6F5FFFA</color>
