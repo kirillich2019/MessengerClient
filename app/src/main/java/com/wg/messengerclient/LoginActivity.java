@@ -15,7 +15,7 @@ import com.wg.messengerclient.mvp_interfaces.ILoginView;
 import com.wg.messengerclient.presenters.LoginPresenter;
 
 @SuppressLint("CheckResult")
-public class MainActivity extends AppCompatActivity implements ILoginView {
+public class LoginActivity extends AppCompatActivity implements ILoginView {
     private LoginPresenter loginPresenter;
 
     private Button loginButton;
