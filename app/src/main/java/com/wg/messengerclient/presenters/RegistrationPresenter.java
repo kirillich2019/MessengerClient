@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.wg.messengerclient.Server.Server;
+import com.wg.messengerclient.server.Server;
 import com.wg.messengerclient.models.server_answers.Errors;
 import com.wg.messengerclient.mvp_interfaces.IRegistrationView;
 

@@ -10,10 +10,15 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.wg.messengerclient.R;
-import com.wg.messengerclient.Server.Server;
+import com.wg.messengerclient.models.server_answers.LoginAnswer;
+import com.wg.messengerclient.server.Server;
 import com.wg.messengerclient.models.server_answers.Errors;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
 
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -56,7 +61,11 @@ public class LoginPresenter implements LifecycleObserver {
                     if (loginAnswer.getError() == 0) {
                         loginView.showError(loginAnswer.getToken());
                     } else {
-                        loginView.showError(Integer.toString(loginAnswer.getError()));
+                        if(loginAnswer.getError_text() != null){
+                            loginView.showError(loginAnswer.getError_text());
+                        }else {
+                            loginView.showError(Errors.UNKNOWN_ERROR.getMessage());
+                        }
                     }
 
                     loginView.closeLoading();

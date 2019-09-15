@@ -1,4 +1,4 @@
-package com.wg.messengerclient;
+package com.wg.messengerclient.models.server_answers;
 
 import com.wg.messengerclient.models.server_answers.AnswerWithError;
 

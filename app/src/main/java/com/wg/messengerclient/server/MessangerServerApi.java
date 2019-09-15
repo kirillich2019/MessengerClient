@@ -1,6 +1,6 @@
-package com.wg.messengerclient.Server;
+package com.wg.messengerclient.server;
 
-import com.wg.messengerclient.WelcomeAnswer;
+import com.wg.messengerclient.models.server_answers.WelcomeAnswer;
 import com.wg.messengerclient.models.server_answers.LoginAnswer;
 import com.wg.messengerclient.models.server_answers.RegistrationAnswer;
 
