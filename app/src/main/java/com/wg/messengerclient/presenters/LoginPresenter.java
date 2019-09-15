@@ -10,7 +10,9 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.wg.messengerclient.R;
-import com.wg.messengerclient.models.server_answers.LoginAnswer;
+import com.wg.messengerclient.database.SingletonDatabase;
+import com.wg.messengerclient.database.dao.BaseProfileInfoDao;
+import com.wg.messengerclient.database.entities.BaseProfileInfo;
 import com.wg.messengerclient.server.Server;
 import com.wg.messengerclient.models.server_answers.Errors;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
@@ -18,7 +20,6 @@ import com.wg.messengerclient.mvp_interfaces.ILoginView;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -34,7 +35,6 @@ public class LoginPresenter implements LifecycleObserver {
     //todo проверка на существование токена в базе
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private void onViewLoading() {
-
     }
 
     @SuppressLint("CheckResult")
@@ -59,25 +59,46 @@ public class LoginPresenter implements LifecycleObserver {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(loginAnswer -> {
                     if (loginAnswer.getError() == 0) {
-                        loginView.showError(loginAnswer.getToken());
-                    } else {
-                        if(loginAnswer.getError_text() != null){
-                            loginView.showError(loginAnswer.getError_text());
-                        }else {
-                            loginView.showError(Errors.UNKNOWN_ERROR.getMessage());
-                        }
-                    }
+                        saveToken(loginAnswer.getToken())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(result -> {
+                                    if(result) {
+                                        openNextScreen();
+                                    }else {
+                                        loginView.showError("Ошибка сохранения токена.");
+                                    }
 
-                    loginView.closeLoading();
+                                    loginView.closeLoading();
+                                });
+                    } else {
+                        loginView.showError(loginAnswer.getError_text() != null ? loginAnswer.getError_text() : Errors.UNKNOWN_ERROR.getMessage());
+                        loginView.closeLoading();
+                    }
                 }, error -> {
-                    loginView.showError(Errors.SERVER_ACCESS_ERROR.getMessage());
+                    loginView.showError(error.getMessage());
 
                     loginView.closeLoading();
                 });
-
     }
 
-    private void openNextSrcreen(){
+    @SuppressLint("CheckResult")
+    private Observable<Boolean> saveToken(String token){
+        return Observable.fromCallable(() -> {
+            try {
+                BaseProfileInfoDao baseProfileInfoDao = SingletonDatabase.get_databaseInstance().baseProfileInfoDao();
 
+                BaseProfileInfo currentUser = baseProfileInfoDao.getCurrentUser();
+                currentUser.token = token;
+                baseProfileInfoDao.update(currentUser);
+                return true;
+            }catch (Throwable t) {
+                return false;
+            }
+        });
+    }
+
+    private void openNextScreen(){
+        loginView.showError("tip otkril");
     }
 }
