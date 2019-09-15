@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginPresenter = new LoginPresenter(this, this);
+        loginPresenter = new LoginPresenter(this, getApplicationContext());
         getLifecycle().addObserver(loginPresenter);
 
         loginButton = findViewById(R.id.loginButton);

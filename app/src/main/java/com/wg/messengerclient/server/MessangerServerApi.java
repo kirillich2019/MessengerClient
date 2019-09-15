@@ -1,5 +1,6 @@
 package com.wg.messengerclient.server;
 
+import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
 import com.wg.messengerclient.models.server_answers.WelcomeAnswer;
 import com.wg.messengerclient.models.server_answers.LoginAnswer;
 import com.wg.messengerclient.models.server_answers.RegistrationAnswer;
@@ -17,4 +18,7 @@ public interface MessangerServerApi {
 
     @GET("/reg")
     Observable<RegistrationAnswer> registration(@Query("login") String login, @Query("pass") String password, @Query("name") String name, @Query("surname") String surname);
+
+    @GET("/profile/getPrivateInfo")
+    Observable<ProfileInfoAnswer> getPrivateProfileInfo(@Query("token") String token);
 }

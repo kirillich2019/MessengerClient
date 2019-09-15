@@ -16,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RegistrationPresenter implements LifecycleObserver {
+public class RegistrationPresenter extends TokenSaver implements LifecycleObserver {
     private IRegistrationView registrationView;
     private Disposable regDisposable;
 
@@ -25,15 +25,15 @@ public class RegistrationPresenter implements LifecycleObserver {
     }
 
     @SuppressLint("CheckResult")
-    public void tryRegistration(@NonNull String login, @NonNull String password, @NonNull String confirmPassword, @NonNull String firstName, @NonNull String lastName){
+    public void tryRegistration(@NonNull String login, @NonNull String password, @NonNull String confirmPassword, @NonNull String firstName, @NonNull String lastName) {
         login = login.trim();
 
-        if(TextUtils.isEmpty(login)) {
+        if (TextUtils.isEmpty(login)) {
             registrationView.showError("Введите логин.");
             return;
         }
 
-        if(TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password)) {
             registrationView.showError("Введите пароль.");
             return;
         }
@@ -41,17 +41,17 @@ public class RegistrationPresenter implements LifecycleObserver {
         password = password.trim();
         confirmPassword = confirmPassword.trim();
 
-        if(!password.equals(confirmPassword)) {
+        if (!password.equals(confirmPassword)) {
             registrationView.showError("Пароли не совпадают.");
             return;
         }
 
-        if(TextUtils.isEmpty(firstName)) {
+        if (TextUtils.isEmpty(firstName)) {
             registrationView.showError("Введите имя.");
             return;
         }
 
-        if(TextUtils.isEmpty(lastName)) {
+        if (TextUtils.isEmpty(lastName)) {
             registrationView.showError("Введите фамилию.");
             return;
         }
@@ -66,11 +66,17 @@ public class RegistrationPresenter implements LifecycleObserver {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(regAnswer -> {
                     if (regAnswer.getError() == 0) {
-                        registrationView.showError(regAnswer.getToken());
+                        saveToken(regAnswer.getToken())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(result -> {
+                                    registrationView.closeLoading();
+                                    openNextScreen();
+                                });
                     } else {
-                        if(regAnswer.getError_text() != null){
+                        if (regAnswer.getError_text() != null) {
                             registrationView.showError(regAnswer.getError_text());
-                        }else {
+                        } else {
                             registrationView.showError(Errors.UNKNOWN_ERROR.getMessage());
                         }
                     }
@@ -83,13 +89,15 @@ public class RegistrationPresenter implements LifecycleObserver {
                 });
     }
 
-    private void openNextScreen(){
+    private void openNextScreen() {
 
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    private void onClose(){
-        if(regDisposable != null)
+    private void onClose() {
+        if (regDisposable != null) {
             regDisposable.dispose();
+            registrationView.closeLoading();
+        }
     }
 }
