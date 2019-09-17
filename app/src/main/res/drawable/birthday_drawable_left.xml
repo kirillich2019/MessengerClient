@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@drawable/gift"
+        android:right="@dimen/margin"
+        android:width="@dimen/profile_drawable_left_icon"
+        android:height="@dimen/profile_drawable_left_icon"
+        />
+</layer-list >

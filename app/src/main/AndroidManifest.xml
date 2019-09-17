@@ -15,12 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ProfileInfoActivity"></activity>
+        <activity android:name=".ProfileInfoActivity" />
         <activity
             android:name=".RegistrationActivity"
             android:noHistory="false"
             android:parentActivityName=".LoginActivity"
-            android:theme="@style/MyTheme.RegTheme"></activity>
+            android:theme="@style/MyTheme.RegTheme" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="profile_drawable_left_icon">15dp</dimen>
+    <dimen name="margin">15dp</dimen>
+    <dimen name="margin2x">30dp</dimen>
+</resources>

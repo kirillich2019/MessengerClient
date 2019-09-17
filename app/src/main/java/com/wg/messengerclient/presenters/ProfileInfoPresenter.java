@@ -17,6 +17,7 @@ public class ProfileInfoPresenter extends TokenSaver{
         tryGetFullProfileInfo();
     }
 
+    //todo если 2 ошибка выходить из профиля в регистрацию
     @SuppressLint("CheckResult")
     private void tryGetFullProfileInfo(){
         getCurrentUserToken()
@@ -24,10 +25,12 @@ public class ProfileInfoPresenter extends TokenSaver{
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(profileInfoAnswer -> {
-                    if(profileInfoAnswer.getError() != 0)
-                        view.showError("error");
+                    if(profileInfoAnswer.getError() != 0) {
+                        view.showError(Integer.toString(profileInfoAnswer.getError()));
+                        return;
+                    }
 
-                    view.setText("login: " + profileInfoAnswer.login + "\nName: " + profileInfoAnswer.name + "\nSurname: " + profileInfoAnswer.surname);
-                });
+                    view.setProfileInfo(profileInfoAnswer.name, profileInfoAnswer.surname, profileInfoAnswer.login, profileInfoAnswer.birthday, "fashion bitch");
+                }, error -> view.showError(error.getMessage()));
     }
 }
