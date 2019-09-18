@@ -74,7 +74,7 @@ public class RegistrationActivity extends AppCompatActivity implements IRegistra
 
     @Override
     public void openNextScreen() {
-        Intent regActivity = new Intent(getApplicationContext(), ProfileInfoActivity.class);
+        Intent regActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
         getApplicationContext().startActivity(regActivity);
     }
 }

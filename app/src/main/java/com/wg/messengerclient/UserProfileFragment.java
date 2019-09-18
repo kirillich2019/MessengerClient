@@ -1,45 +1,54 @@
 package com.wg.messengerclient;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.presenters.ProfileInfoPresenter;
 
-public class ProfileInfoActivity extends AppCompatActivity implements IProfileInfoView {
+public class UserProfileFragment extends Fragment implements IProfileInfoView {
     private ProfileInfoPresenter profileInfoPresenter;
     private TextView fullName, birthday_text, status_text, login_text;
     private ExpandableRelativeLayout expandableRelativeLayout;
     private Button openInfoButton;
     private Drawable left, rightOpen, rightClose;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_info);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_user_profile, container, false);
+    }
 
-        fullName = findViewById(R.id.full_name_textView);
-        birthday_text = findViewById(R.id.birthday_textView);
-        status_text = findViewById(R.id.status_textView);
-        login_text = findViewById(R.id.login_textView);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        expandableRelativeLayout = findViewById(R.id.expandableLayout);
+        fullName = getActivity().findViewById(R.id.full_name_textView);
+        birthday_text = getActivity().findViewById(R.id.birthday_textView);
+        status_text = getActivity().findViewById(R.id.status_textView);
+        login_text = getActivity().findViewById(R.id.login_textView);
+
+        expandableRelativeLayout = getActivity().findViewById(R.id.expandableLayout);
         expandableRelativeLayout.collapse();
-        openInfoButton = findViewById(R.id.button);
+        openInfoButton = getActivity().findViewById(R.id.information_spoiler);
         openInfoButton.setOnClickListener(v -> expandableRelativeLayout.toggle());
 
-        left = ContextCompat.getDrawable(getApplicationContext(), R.drawable.info_drawable_left);
+        left = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.info_drawable_left);
         left.setBounds(
                 0,
                 0,
@@ -47,7 +56,7 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
                 left.getIntrinsicHeight()
         );
 
-        rightOpen = ContextCompat.getDrawable(getApplicationContext(), R.drawable.expandable_drawable_right_open);
+        rightOpen = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.expandable_drawable_right_open);
         rightOpen.setBounds(
                 0, 0,
                 rightOpen.getIntrinsicWidth(),
@@ -55,7 +64,7 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
 
         );
 
-        rightClose = ContextCompat.getDrawable(getApplicationContext(), R.drawable.expandable_drawable_right_close);
+        rightClose = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.expandable_drawable_right_close);
         rightClose.setBounds(
                 0,
                 0,
@@ -96,21 +105,6 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
             }
         });
 
-        ((BottomNavigationView) findViewById(R.id.bottom_nav_view)).setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.friends_fragment:
-
-                    break;
-                case R.id.settings_fragment:
-
-                    break;
-                case R.id.messages_fragment:
-
-                    break;
-            }
-
-            return true;
-        });
         profileInfoPresenter = new ProfileInfoPresenter(this);
     }
 
@@ -123,10 +117,9 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
         );
     }
 
-
     @Override
     public void showError(String errorText) {
-        Toast.makeText(this, errorText, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity().getApplicationContext(), errorText, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -157,11 +150,5 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
             login_text.setVisibility(View.VISIBLE);
         } else
             login_text.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void openLoginScreen() {
-        Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
-        getApplicationContext().startActivity(loginActivity);
     }
 }

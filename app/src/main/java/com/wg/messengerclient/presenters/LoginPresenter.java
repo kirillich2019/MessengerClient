@@ -2,7 +2,6 @@ package com.wg.messengerclient.presenters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -10,9 +9,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.wg.messengerclient.ProfileInfoActivity;
 import com.wg.messengerclient.R;
-import com.wg.messengerclient.RegistrationActivity;
 import com.wg.messengerclient.server.Server;
 import com.wg.messengerclient.models.server_answers.Errors;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
