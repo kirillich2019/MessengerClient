@@ -33,4 +33,16 @@ public abstract class TokenSaver {
     public Observable<String> getCurrentUserToken(){
         return Observable.fromCallable(() -> baseProfileInfoDao.getFirstOrNull().token);
     }
+
+    public Observable<Boolean> delCurrentUser(){
+        return Observable.fromCallable(() -> {
+            BaseProfileInfo userInDb = baseProfileInfoDao.getFirstOrNull();
+
+            if(userInDb == null)
+                return true;
+
+            baseProfileInfoDao.delete(userInDb);
+            return true;
+        });
+    }
 }

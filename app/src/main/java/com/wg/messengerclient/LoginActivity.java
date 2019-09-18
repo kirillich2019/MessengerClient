@@ -63,4 +63,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         loginButton.setEnabled(true);
         progressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public void openNextScreen() {
+        Intent regActivity = new Intent(getApplicationContext(), ProfileInfoActivity.class);
+        getApplicationContext().startActivity(regActivity);
+    }
 }

@@ -53,4 +53,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
 
     implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
+
 }

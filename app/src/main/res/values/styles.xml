@@ -21,4 +21,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="MyTheme.MainActivity" parent="MyTheme">
+        <item name="android:statusBarColor">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/main_activity_navbar</item>
+    </style>
 </resources>

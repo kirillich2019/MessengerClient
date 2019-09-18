@@ -39,7 +39,7 @@ public class LoginPresenter extends TokenSaver implements LifecycleObserver {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                    if(result)
-                       openNextScreen();
+                       loginView.openNextScreen();
                 });
     }
 
@@ -70,7 +70,7 @@ public class LoginPresenter extends TokenSaver implements LifecycleObserver {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(result -> {
                                     loginView.closeLoading();
-                                    openNextScreen();
+                                    loginView.openNextScreen();
                                 });
                     } else {
                         loginView.showError(loginAnswer.getError_text() != null ? loginAnswer.getError_text() : Errors.UNKNOWN_ERROR.getMessage());
@@ -81,11 +81,6 @@ public class LoginPresenter extends TokenSaver implements LifecycleObserver {
 
                     loginView.closeLoading();
                 });
-    }
-
-    private void openNextScreen(){
-        Intent regActivity = new Intent(appContext, ProfileInfoActivity.class);
-        appContext.startActivity(regActivity);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)

@@ -150,10 +150,22 @@
                     android:fontFamily="sans-serif-condensed-medium"
                     android:text="birthday: 11.09.2000"
                     android:textColor="@color/bc_lightBlue"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="gone" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/top_rounded_element"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/profile_activity_menu"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        tools:layout_editor_absoluteX="152dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

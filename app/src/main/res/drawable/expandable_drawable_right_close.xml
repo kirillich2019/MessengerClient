@@ -3,7 +3,7 @@
     <item
         android:drawable="@drawable/expand_top"
         android:left="@dimen/margin2x"
-        android:width="15dp"
-        android:height="15dp"
+        android:width="@dimen/profile_drawable_left_icon"
+        android:height="@dimen/profile_drawable_left_icon"
         />
 </layer-list >

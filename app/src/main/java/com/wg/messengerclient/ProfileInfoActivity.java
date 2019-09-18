@@ -3,6 +3,7 @@ package com.wg.messengerclient;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.presenters.ProfileInfoPresenter;
 
@@ -39,15 +41,15 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
 
         left = ContextCompat.getDrawable(getApplicationContext(), R.drawable.info_drawable_left);
         left.setBounds(
-                0, // left
-                0, // top
-                left.getIntrinsicWidth(), // right
-                left.getIntrinsicHeight() // bottom
+                0,
+                0,
+                left.getIntrinsicWidth(),
+                left.getIntrinsicHeight()
         );
 
         rightOpen = ContextCompat.getDrawable(getApplicationContext(), R.drawable.expandable_drawable_right_open);
         rightOpen.setBounds(
-                0,0,
+                0, 0,
                 rightOpen.getIntrinsicWidth(),
                 rightOpen.getIntrinsicHeight()
 
@@ -94,14 +96,31 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
             }
         });
 
+        ((BottomNavigationView) findViewById(R.id.bottom_nav_view)).setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.friends_fragment:
+
+                    break;
+                case R.id.settings_fragment:
+
+                    break;
+                case R.id.messages_fragment:
+
+                    break;
+            }
+
+            return true;
+        });
         profileInfoPresenter = new ProfileInfoPresenter(this);
     }
 
-    private void setOpenInfoButtonDrawables(boolean isOpen){
-        openInfoButton.setCompoundDrawables( left,
+    private void setOpenInfoButtonDrawables(boolean isOpen) {
+        openInfoButton.setCompoundDrawables(
+                left,
                 null,
                 isOpen ? rightOpen : rightClose,
-                null);
+                null
+        );
     }
 
 
@@ -114,27 +133,35 @@ public class ProfileInfoActivity extends AppCompatActivity implements IProfileIn
     public void setProfileInfo(String name, String surname, String login, String birthday, String status) {
         String fullNameString = "";
 
-        if(name != null)
+        if (name != null)
             fullNameString += name;
 
-        if(surname != null)
+        if (surname != null)
             fullNameString += " " + surname;
 
         fullName.setText(fullNameString);
 
-        if(status != null)
+        if (status != null) {
             status_text.setText(status);
-        else
+        } else
             status_text.setVisibility(View.INVISIBLE);
 
-        if(birthday != null && !birthday.equals("0"))
-            birthday_text.setText(birthday);
-        else
+        if (birthday != null) {
+            birthday_text.setText("birthday: " + birthday);
+            birthday_text.setVisibility(View.VISIBLE);
+        } else
             birthday_text.setVisibility(View.GONE);
 
-        if(login != null)
-            login_text.setText(login);
-        else
+        if (login != null) {
+            login_text.setText("login: " + login);
+            login_text.setVisibility(View.VISIBLE);
+        } else
             login_text.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void openLoginScreen() {
+        Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+        getApplicationContext().startActivity(loginActivity);
     }
 }

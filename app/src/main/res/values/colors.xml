@@ -9,4 +9,6 @@
     <color name="backgroundColor">#03436A</color>
     <color name="h1_text_color">#0969A3</color>
     <color name="reg_background">#E6F5FFFA</color>
+    <color name="bottom_nav_item_selected_color">#FF7600</color>
+    <color name="main_activity_navbar">#CCCCCC</color>
 </resources>

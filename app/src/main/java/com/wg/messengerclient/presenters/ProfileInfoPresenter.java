@@ -33,4 +33,12 @@ public class ProfileInfoPresenter extends TokenSaver{
                     view.setProfileInfo(profileInfoAnswer.name, profileInfoAnswer.surname, profileInfoAnswer.login, profileInfoAnswer.birthday, "fashion bitch");
                 }, error -> view.showError(error.getMessage()));
     }
+
+    @SuppressLint("CheckResult")
+    public void tryLogOut(){
+        delCurrentUser()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(delResult -> view.openLoginScreen());
+    }
 }

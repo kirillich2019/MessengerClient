@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile_fragment"
+        android:icon="@drawable/user"
+        android:title="Profile" />
+
+    <item
+        android:id="@+id/friends_fragment"
+        android:icon="@drawable/friends"
+        android:title="Friends" />
+
+    <item
+        android:id="@+id/messages_fragment"
+        android:icon="@drawable/envelope"
+        android:title="Messages" />
+
+    <item
+        android:id="@+id/settings_fragment"
+        android:icon="@drawable/setting"
+        android:title="Settings" />
+</menu>

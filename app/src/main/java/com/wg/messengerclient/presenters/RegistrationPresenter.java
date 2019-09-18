@@ -71,7 +71,7 @@ public class RegistrationPresenter extends TokenSaver implements LifecycleObserv
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(result -> {
                                     registrationView.closeLoading();
-                                    openNextScreen();
+                                    registrationView.openNextScreen();
                                 });
                     } else {
                         if (regAnswer.getError_text() != null) {
@@ -87,10 +87,6 @@ public class RegistrationPresenter extends TokenSaver implements LifecycleObserv
 
                     registrationView.closeLoading();
                 });
-    }
-
-    private void openNextScreen() {
-
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
