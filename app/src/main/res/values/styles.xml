@@ -26,4 +26,12 @@
         <item name="android:statusBarColor">@color/backgroundColor</item>
         <item name="android:navigationBarColor">@color/main_activity_navbar</item>
     </style>
+
+    <style name="TextLabel" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/bc_lightBlue</item>
+        <item name="android:textSize">20sp</item>
+        <item name="colorAccent">@color/bc_lightBlue</item>
+        <item name="colorControlNormal">@color/bc_lightBlue</item>
+        <item name="colorControlActivated">@color/bc_lightBlue</item>
+    </style>
 </resources>
