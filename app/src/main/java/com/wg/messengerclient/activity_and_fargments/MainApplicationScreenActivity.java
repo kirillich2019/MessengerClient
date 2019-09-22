@@ -1,4 +1,4 @@
-package com.wg.messengerclient;
+package com.wg.messengerclient.activity_and_fargments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,13 +7,15 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.wg.messengerclient.R;
+import com.wg.messengerclient.mvp_interfaces.ISettingView;
 
 public class MainApplicationScreenActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
     private Fragment profileInfo, settings;
+    private ISettingView settingView;
     final static String PROFILE_INFO_FRAGMENT_TAG = "PROFILE_INFO";
     final static String SETTINGS_FRAGMENT_TAG = "SETTINGS";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity{
 
         profileInfo = new UserProfileFragment();
         settings = new SettingsFragment();
+        settingView = (ISettingView)settings;
 
         fragmentManager.beginTransaction()
                 .add(R.id.main_fragment, profileInfo, PROFILE_INFO_FRAGMENT_TAG)
@@ -50,6 +53,8 @@ public class MainApplicationScreenActivity extends AppCompatActivity{
                             .show(settings)
                             .hide(profileInfo)
                             .commit();
+
+                    settingView.onFragmentShow();
                     break;
             }
 

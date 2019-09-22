@@ -1,4 +1,4 @@
-package com.wg.messengerclient;
+package com.wg.messengerclient.activity_and_fargments;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
 import com.wg.messengerclient.presenters.LoginPresenter;
 

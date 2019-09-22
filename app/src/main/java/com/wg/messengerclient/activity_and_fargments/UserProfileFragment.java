@@ -1,4 +1,4 @@
-package com.wg.messengerclient;
+package com.wg.messengerclient.activity_and_fargments;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.presenters.ProfileInfoPresenter;
 

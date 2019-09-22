@@ -4,9 +4,13 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 import com.wg.messengerclient.database.dao.BaseProfileInfoDao;
+import com.wg.messengerclient.database.dao.FullProfileInfoDao;
 import com.wg.messengerclient.database.entities.BaseProfileInfo;
+import com.wg.messengerclient.database.entities.FullProfileInfo;
 
-@Database(entities = {BaseProfileInfo.class}, version = 1)
+@Database(entities = {BaseProfileInfo.class, FullProfileInfo.class}, version = 1)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract BaseProfileInfoDao baseProfileInfoDao();
+
+    public abstract FullProfileInfoDao fullProfileInfoDao();
 }

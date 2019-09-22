@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class FullProfileInfo {
+public class FullProfileInfo{
     @PrimaryKey(autoGenerate = true)
     public int index;
 

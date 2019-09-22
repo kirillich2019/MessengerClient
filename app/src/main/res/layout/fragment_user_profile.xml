@@ -5,7 +5,7 @@
     android:id="@+id/real_fragment_user_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserProfileFragment">
+    tools:context=".activity_and_fargments.UserProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

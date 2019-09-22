@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".LoginActivity">
+    tools:context=".activity_and_fargments.LoginActivity">
 
     <Button
         android:id="@+id/loginButton"
@@ -107,8 +107,8 @@
         android:id="@+id/textView"
         android:layout_width="202dp"
         android:layout_height="57dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="Телега#"
+        android:fontFamily="monospace"
+        android:text="VEX"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="40dp"
@@ -135,5 +135,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordField"
         app:layout_constraintVertical_bias="0.063" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="158dp"
+        android:layout_height="165dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/vex" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

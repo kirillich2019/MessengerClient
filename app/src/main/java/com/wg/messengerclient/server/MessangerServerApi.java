@@ -1,13 +1,17 @@
 package com.wg.messengerclient.server;
 
 import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
+import com.wg.messengerclient.models.server_answers.SetInfoAnswer;
 import com.wg.messengerclient.models.server_answers.WelcomeAnswer;
 import com.wg.messengerclient.models.server_answers.LoginAnswer;
 import com.wg.messengerclient.models.server_answers.RegistrationAnswer;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface MessangerServerApi {
     @GET("/login")
@@ -21,4 +25,7 @@ public interface MessangerServerApi {
 
     @GET("/profile/getPrivateInfo")
     Observable<ProfileInfoAnswer> getPrivateProfileInfo(@Query("token") String token);
+
+    @GET("/profile/setInfo")
+    Observable<SetInfoAnswer> setProfileFields(@Query("token") String token, @QueryMap Map<String, String> fields);
 }
