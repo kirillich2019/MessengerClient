@@ -5,16 +5,16 @@ import android.content.Context;
 import androidx.room.Room;
 
 public class SingletonDatabase {
-    private static MyDatabase _databaseInstance;
+    private static MyDatabase databaseInstance;
 
-    public static void BuildDatabase(Context appContext){
-        _databaseInstance = Room.databaseBuilder(appContext, MyDatabase.class, "cacheProfileInfo").build();
+    public static void buildDatabase(Context appContext){
+        databaseInstance = Room.databaseBuilder(appContext, MyDatabase.class, "cacheProfileInfo").build();
     }
 
-    public static MyDatabase get_databaseInstance(){
-        if(_databaseInstance == null)
-            throw new NullPointerException("Ссылка на базу данных не созданна. Для начала вызовите метод BuildDatabase.");
+    public static MyDatabase getDatabaseInstance(){
+        if(databaseInstance == null)
+            throw new NullPointerException("Ссылка на базу данных не созданна. Для начала вызовите метод buildDatabase.");
 
-        return _databaseInstance;
+        return databaseInstance;
     }
 }

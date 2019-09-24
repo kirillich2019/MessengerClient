@@ -70,11 +70,11 @@ public class LoginPresenter extends TokenSaver implements LifecycleObserver {
                                     loginView.openNextScreen();
                                 });
                     } else {
-                        loginView.showError(loginAnswer.getError_text() != null ? loginAnswer.getError_text() : Errors.UNKNOWN_ERROR.getMessage());
+                        loginView.showError(loginAnswer.getErrorText() != null ? loginAnswer.getErrorText() : Errors.UNKNOWN_ERROR.getMessage());
                         loginView.closeLoading();
                     }
                 }, error -> {
-                    loginView.showError(error.getMessage());
+                    loginView.showError("Нет подключения к интернету.");
 
                     loginView.closeLoading();
                 });

@@ -8,9 +8,10 @@
     <string name="loginFieldIsEmpty">Заполните поле логина.</string>
     <string name="passFieldIsEmpty">Введите пароль.</string>
     <string name="settingsText">Настройки</string>
-    <string name="settingsText1">Профиль:</string>
+    <string name="settingsText1">Информация профиля:</string>
+    <string name="settingsText2">Данные для входа:</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="exit_from_profile">Выйти из аккаунта</string>
 </resources>

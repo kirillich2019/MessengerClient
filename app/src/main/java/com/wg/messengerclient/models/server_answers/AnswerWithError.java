@@ -1,13 +1,16 @@
 package com.wg.messengerclient.models.server_answers;
 
+import com.google.gson.annotations.SerializedName;
+
 public class AnswerWithError {
     private int error = 0;
 
-    private String error_text = "";
+    @SerializedName("error_text")
+    private String errorText = "";
 
     public int getError() {
         return error;
     }
 
-    public String getError_text() { return error_text; }
+    public String getErrorText() { return errorText; }
 }

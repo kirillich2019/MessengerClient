@@ -1,10 +1,12 @@
-package com.wg.messengerclient.presenters;
+package com.wg.messengerclient.presenters.transmitters;
 
-public class ProfileChangesTransmitter {
+public class ProfileInfoChangesTransmitter {
     private String name, surname, birthday;
     private boolean name_changed, surname_changed, birthday_changed;
 
-    public ProfileChangesTransmitter(String name, String surname, String birthday, boolean name_changed, boolean surname_changed, boolean birthday_changed) {
+
+
+    public ProfileInfoChangesTransmitter(String name, String surname, String birthday, boolean name_changed, boolean surname_changed, boolean birthday_changed) {
         this.name = name;
         this.surname = surname;
         this.birthday = birthday;
@@ -25,11 +27,11 @@ public class ProfileChangesTransmitter {
         return birthday;
     }
 
-    public boolean isName_changed() {
+    public boolean isNameChanged() {
         return name_changed;
     }
 
-    public boolean isSurname_changed() {
+    public boolean isSurnameChanged() {
         return surname_changed;
     }
 

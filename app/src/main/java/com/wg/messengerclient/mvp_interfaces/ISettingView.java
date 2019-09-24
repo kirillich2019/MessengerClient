@@ -6,4 +6,22 @@ public interface ISettingView extends IShowError{
     void fillingFieldsCurrentData(String name, String surname);
 
     void onFragmentShow();
+
+    void cleanAllErrors();
+
+    void setChangeNameError(String text);
+
+    void setChangeSurnameError(String text);
+
+    void setCurrentPasswordError(String text);
+
+    void setNewPasswordError(String text);
+
+    void setConfirmNewPasswordError(String text);
+
+    void setNewLoginError(String text);
+
+    void clearAllChangeLoginFields();
+
+    void clearAllChangeProfileInfoFields();
 }

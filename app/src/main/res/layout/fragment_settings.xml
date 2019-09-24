@@ -7,175 +7,334 @@
     android:layout_height="match_parent"
     tools:context=".activity_and_fargments.SettingsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_info"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_marginTop="8dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_info"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="15dp">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:id="@+id/settings_label"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/info_drawable_settings"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/settingsText"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/bc_lightBlue"
-                    android:textSize="20sp" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/round_element"
-                    android:tag="@string/loginButton"></View>
+                    <TextView
+                        android:id="@+id/settings_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/info_drawable_settings"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="@string/settingsText"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/bc_lightBlue"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/settings_label2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/settingsText1"
-                    android:textAlignment="center"
-                    android:textColor="@color/bc_lightBlue"
-                    android:textSize="20sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/round_element"
+                        android:tag="@string/loginButton"></View>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:clipChildren="true"
-                    android:clipToPadding="true"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@style/error_appearance"
-                    app:hintTextAppearance="@style/error_appearance">
+                    <TextView
+                        android:id="@+id/settings_label2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="@string/settingsText1"
+                        android:textAlignment="center"
+                        android:textColor="@color/bc_lightBlue"
+                        android:textSize="20sp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/change_name_textEdit"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/change_name_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:clipChildren="true"
+                        android:clipToPadding="true"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance_1"
+                        app:hintTextAppearance="@style/error_appearance">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/change_name_textEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="13dp"
+                            android:background="@drawable/text_view_border"
+                            android:fontFamily="monospace"
+                            android:hint="Имя пользователя"
+                            android:paddingLeft="@dimen/margin"
+                            android:paddingEnd="@dimen/margin"
+                            android:singleLine="true"
+                            android:textColor="@color/bc_lightBlue"
+                            android:textCursorDrawable="@drawable/cursor1"
+                            tools:text="@string/app_name" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/change_surname_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:clipChildren="true"
+                        android:clipToPadding="true"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance_1"
+                        app:hintTextAppearance="@style/error_appearance">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/change_surname_textEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/text_view_border"
+                            android:fontFamily="monospace"
+                            android:hint="Фамилия пользователя"
+                            android:paddingLeft="@dimen/margin"
+                            android:paddingEnd="@dimen/margin"
+                            android:singleLine="true"
+                            android:textColor="@color/bc_lightBlue"
+                            android:textCursorDrawable="@drawable/cursor1"
+                            tools:text="@string/app_name" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/change_birthday"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="13dp"
-                        android:background="@drawable/text_view_border"
+                        android:background="@drawable/round_element"
+                        android:drawablePadding="@dimen/margin"
                         android:fontFamily="monospace"
-                        android:hint="Имя пользователя"
+                        android:paddingLeft="@dimen/margin"
+                        android:text="День рождения"
+                        android:textAlignment="textStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/save_profile_settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/orange_round_element"
+                        android:drawablePadding="@dimen/margin"
+                        android:fontFamily="monospace"
                         android:paddingLeft="@dimen/margin"
                         android:paddingEnd="@dimen/margin"
-                        android:singleLine="true"
+                        android:text="Сохранит изменения"
+                        android:textAlignment="textStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/round_element"
+                        android:tag="@string/loginButton"></View>
+
+                    <TextView
+                        android:id="@+id/settings_label3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="@string/settingsText2"
+                        android:textAlignment="center"
                         android:textColor="@color/bc_lightBlue"
-                        android:textCursorDrawable="@drawable/cursor1"
-                        tools:text="@string/app_name" />
+                        android:textSize="20sp" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/сurrent_password_till"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:clipChildren="true"
+                        android:clipToPadding="true"
+                        android:hint="Текущий пароль"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance_1"
+                        app:hintTextAppearance="@style/error_appearance">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:clipChildren="true"
-                    android:clipToPadding="true"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@style/error_appearance"
-                    app:hintTextAppearance="@style/error_appearance">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/сurrent_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/text_view_border"
+                            android:fontFamily="monospace"
+                            android:inputType="textPassword"
+                            android:paddingLeft="@dimen/margin"
+                            android:paddingEnd="@dimen/margin"
+                            android:singleLine="true"
+                            android:textColor="@color/bc_lightBlue"
+                            android:textCursorDrawable="@drawable/cursor1"
+                            tools:text="@string/app_name" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/change_surname_textEdit"
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/new_password_till"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:clipChildren="true"
+                        android:clipToPadding="true"
+                        android:hint="Новый пароль"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance_1"
+                        app:hintTextAppearance="@style/error_appearance">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/new_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="13dp"
+                            android:background="@drawable/text_view_border"
+                            android:fontFamily="monospace"
+                            android:inputType="textPassword"
+                            android:paddingLeft="@dimen/margin"
+                            android:paddingEnd="@dimen/margin"
+                            android:singleLine="true"
+                            android:textColor="@color/bc_lightBlue"
+                            android:textCursorDrawable="@drawable/cursor1"
+                            tools:text="@string/app_name" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/confirm_new_password_till"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:clipChildren="true"
+                        android:clipToPadding="true"
+                        android:hint="Повторите новый пароль"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance_1"
+                        app:hintTextAppearance="@style/error_appearance">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/confirm_new_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="13dp"
+                            android:background="@drawable/text_view_border"
+                            android:fontFamily="monospace"
+                            android:inputType="textPassword"
+                            android:paddingLeft="@dimen/margin"
+                            android:paddingEnd="@dimen/margin"
+                            android:singleLine="true"
+                            android:textColor="@color/bc_lightBlue"
+                            android:textCursorDrawable="@drawable/cursor1"
+                            tools:text="@string/app_name" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/new_login_till"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:clipChildren="true"
+                        android:clipToPadding="true"
+                        android:hint="Новый логин"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance_1"
+                        app:hintTextAppearance="@style/error_appearance">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/new_login"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="13dp"
+                            android:background="@drawable/text_view_border"
+                            android:fontFamily="monospace"
+                            android:inputType="textPassword"
+                            android:paddingLeft="@dimen/margin"
+                            android:paddingEnd="@dimen/margin"
+                            android:singleLine="true"
+                            android:textColor="@color/bc_lightBlue"
+                            android:textCursorDrawable="@drawable/cursor1"
+                            tools:text="@string/app_name" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/save_login_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/orange_round_element"
+                        android:drawablePadding="@dimen/margin"
+                        android:fontFamily="monospace"
+                        android:paddingLeft="@dimen/margin"
+                        android:paddingEnd="@dimen/margin"
+                        android:text="Сохранит изменения"
+                        android:textAlignment="textStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/round_element"
+                        android:tag="@string/loginButton"></View>
+
+                    <Button
+                        android:id="@+id/exit_from_application"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:background="@drawable/text_view_border"
-                        android:fontFamily="monospace"
-                        android:hint="Фамилия пользователя"
-                        android:paddingLeft="@dimen/margin"
-                        android:paddingEnd="@dimen/margin"
-                        android:singleLine="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/transparant_background"
+                        android:drawableLeft="@drawable/exit_drawable_blue"
+                        android:drawablePadding="@dimen/margin"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="@string/exit_from_profile"
+                        android:textAlignment="textStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/bc_lightBlue"
-                        android:textCursorDrawable="@drawable/cursor1"
-                        tools:text="@string/app_name" />
+                        android:textSize="18sp" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
-                <Button
-                    android:id="@+id/change_birthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="13dp"
-                    android:background="@drawable/round_element"
-                    android:drawablePadding="@dimen/margin"
-                    android:fontFamily="monospace"
-                    android:paddingLeft="@dimen/margin"
-                    android:text="День рождения"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp" />
+            </androidx.cardview.widget.CardView>
 
-                <Button
-                    android:id="@+id/save_profile_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/orange_round_element"
-                    android:drawablePadding="@dimen/margin"
-                    android:fontFamily="monospace"
-                    android:paddingLeft="@dimen/margin"
-                    android:paddingEnd="@dimen/margin"
-                    android:text="Сохранит изменения"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp" />
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/round_element"
-                    android:tag="@string/loginButton"></View>
-
-                <Button
-                    android:id="@+id/exit_from_application"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/transparant_background"
-                    android:drawableLeft="@drawable/exit_drawable_blue"
-                    android:drawablePadding="@dimen/margin"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/exit_from_profile"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/bc_lightBlue"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </FrameLayout>

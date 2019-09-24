@@ -45,13 +45,18 @@ public class RegistrationActivity extends AppCompatActivity implements IRegistra
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
             finish();
-            overridePendingTransition(R.anim.scroll_from_top, R.anim.scroll_to_top);});
+            overridePendingTransition(R.anim.scroll_from_top, R.anim.scroll_to_top);
+        });
 
         regButton = findViewById(R.id.regButton);
         regButton.setOnClickListener(v ->
-                registrationPresenter.tryRegistration(reg_login.getText().toString(),
-                reg_pass.getText().toString(), confirm_reg_pass.getText().toString(),
-                reg_name.getText().toString(), reg_surname.getText().toString()));
+                registrationPresenter.tryRegistration(
+                        reg_login.getText().toString(),
+                        reg_pass.getText().toString(),
+                        confirm_reg_pass.getText().toString(),
+                        reg_name.getText().toString(),
+                        reg_surname.getText().toString()
+                ));
     }
 
     @Override
@@ -76,6 +81,6 @@ public class RegistrationActivity extends AppCompatActivity implements IRegistra
     @Override
     public void openNextScreen() {
         Intent regActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
-        getApplicationContext().startActivity(regActivity);
+        startActivity(regActivity);
     }
 }

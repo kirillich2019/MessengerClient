@@ -74,8 +74,8 @@ public class RegistrationPresenter extends TokenSaver implements LifecycleObserv
                                     registrationView.openNextScreen();
                                 });
                     } else {
-                        if (regAnswer.getError_text() != null) {
-                            registrationView.showError(regAnswer.getError_text());
+                        if (regAnswer.getErrorText() != null) {
+                            registrationView.showError(regAnswer.getErrorText());
                         } else {
                             registrationView.showError(Errors.UNKNOWN_ERROR.getMessage());
                         }

@@ -11,18 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_user_profile"></FrameLayout>
+        tools:layout="@layout/fragment_user_profile" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/top_rounded_element"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/profile_activity_menu"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/profile_activity_menu"
         tools:layout_editor_absoluteX="152dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

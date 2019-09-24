@@ -3,7 +3,7 @@ package com.wg.messengerclient.models.server_answers;
 import java.util.List;
 import java.util.Map;
 
-public class SetInfoAnswer extends AnswerWithError {
+public class SetUserInfoAnswer extends AnswerWithError{
     private List<Integer> errors;
 
     private Map<Integer, String> error_texts;

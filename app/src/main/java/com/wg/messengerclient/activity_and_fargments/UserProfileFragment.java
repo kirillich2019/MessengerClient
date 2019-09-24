@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -23,10 +25,11 @@ import com.wg.messengerclient.presenters.ProfileInfoPresenter;
 
 public class UserProfileFragment extends Fragment implements IProfileInfoView {
     private ProfileInfoPresenter profileInfoPresenter;
-    private TextView fullName, birthday_text, status_text, login_text;
+    private TextView fullName, birthday_text, status_text, login_text, warningText;
     private ExpandableRelativeLayout expandableRelativeLayout;
     private Button openInfoButton;
     private Drawable left, rightOpen, rightClose;
+    private CardView warningPanel;
 
 
     @Override
@@ -36,20 +39,22 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        fullName = getActivity().findViewById(R.id.full_name_textView);
-        birthday_text = getActivity().findViewById(R.id.birthday_textView);
-        status_text = getActivity().findViewById(R.id.status_textView);
-        login_text = getActivity().findViewById(R.id.login_textView);
+        fullName = view.findViewById(R.id.full_name_textView);
+        birthday_text = view.findViewById(R.id.birthday_textView);
+        status_text = view.findViewById(R.id.status_textView);
+        login_text = view.findViewById(R.id.login_textView);
+        warningText = view.findViewById(R.id.warning_text);
+        warningPanel = view.findViewById(R.id.warningCardView);
 
-        expandableRelativeLayout = getActivity().findViewById(R.id.expandableLayout);
+        expandableRelativeLayout = view.findViewById(R.id.expandableLayout);
         expandableRelativeLayout.collapse();
-        openInfoButton = getActivity().findViewById(R.id.information_spoiler);
+        openInfoButton = view.findViewById(R.id.information_spoiler);
         openInfoButton.setOnClickListener(v -> expandableRelativeLayout.toggle());
 
-        left = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.info_drawable_left);
+        left = ContextCompat.getDrawable(getContext(), R.drawable.info_drawable_left);
         left.setBounds(
                 0,
                 0,
@@ -57,7 +62,7 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
                 left.getIntrinsicHeight()
         );
 
-        rightOpen = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.expandable_drawable_right_open);
+        rightOpen = ContextCompat.getDrawable(getContext(), R.drawable.expandable_drawable_right_open);
         rightOpen.setBounds(
                 0, 0,
                 rightOpen.getIntrinsicWidth(),
@@ -65,7 +70,7 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
 
         );
 
-        rightClose = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.expandable_drawable_right_close);
+        rightClose = ContextCompat.getDrawable(getContext(), R.drawable.expandable_drawable_right_close);
         rightClose.setBounds(
                 0,
                 0,
@@ -140,16 +145,28 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
         } else
             status_text.setVisibility(View.INVISIBLE);
 
-        if (birthday != null) {
-            birthday_text.setText("birthday: " + birthday);
-            birthday_text.setVisibility(View.VISIBLE);
-        } else
-            birthday_text.setVisibility(View.GONE);
+        birthday_text.setText("birthday: " + (birthday != null ? birthday : "не указано"));
 
         if (login != null) {
             login_text.setText("login: " + login);
             login_text.setVisibility(View.VISIBLE);
         } else
             login_text.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFragmentShow() {
+        profileInfoPresenter.tryGetAndSaveFullProfileInfo();
+    }
+
+    @Override
+    public void hideWarning() {
+        warningPanel.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showWarning(String warningText) {
+        warningPanel.setVisibility(View.VISIBLE);
+        this.warningText.setText(warningText);
     }
 }

@@ -12,8 +12,10 @@ import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
 import io.reactivex.Observable;
 
 public abstract class TokenSaver {
-    BaseProfileInfoDao baseProfileInfoDao = SingletonDatabase.get_databaseInstance().baseProfileInfoDao();
-    FullProfileInfoDao fullProfileInfoDao = SingletonDatabase.get_databaseInstance().fullProfileInfoDao();
+    BaseProfileInfoDao baseProfileInfoDao = SingletonDatabase.getDatabaseInstance().baseProfileInfoDao();
+    FullProfileInfoDao fullProfileInfoDao = SingletonDatabase.getDatabaseInstance().fullProfileInfoDao();
+
+
 
     @SuppressLint("CheckResult")
     public Observable saveToken(String token) {
@@ -29,7 +31,7 @@ public abstract class TokenSaver {
         return Observable.fromCallable(() -> {
             BaseProfileInfo userInDb = baseProfileInfoDao.getFirstOrNull();
 
-            return userInDb == null ? false : true;
+            return userInDb != null;
         });
     }
 
@@ -59,9 +61,10 @@ public abstract class TokenSaver {
                 FullProfileInfo currentUser = fullProfileInfoDao.getOrCreateAndGetCurrentUser();
 
                 currentUser.id = answer.id;
+                currentUser.login = answer.login;
                 currentUser.name = answer.name;
                 currentUser.surname = answer.surname;
-                currentUser.birthday = answer.birthday != null ? answer.birthday : null;
+                currentUser.birthday = answer.birthday;
 
                 fullProfileInfoDao.update(currentUser);
             }
@@ -71,9 +74,6 @@ public abstract class TokenSaver {
     }
 
     protected Observable<FullProfileInfo> getCurrentUserFullProfileInfoFromDB(){
-        return Observable.fromCallable(() -> {
-           FullProfileInfo fullProfileInfo = fullProfileInfoDao.getFirstOrNull();
-           return fullProfileInfo;
-        });
+        return Observable.fromCallable(() -> fullProfileInfoDao.getFirstOrNull());
     }
 }

@@ -40,5 +40,10 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="error_appearance_1" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/bottom_nav_item_selected_color</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/transparant_background</item>
+    </style>
 
 </resources>

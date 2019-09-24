@@ -6,6 +6,6 @@ public class MyAppImplementation extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SingletonDatabase.BuildDatabase(getApplicationContext());
+        SingletonDatabase.buildDatabase(getApplicationContext());
     }
 }
