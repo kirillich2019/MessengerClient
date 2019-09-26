@@ -24,4 +24,12 @@ public interface ISettingView extends IShowError{
     void clearAllChangeLoginFields();
 
     void clearAllChangeProfileInfoFields();
+
+    void showProgressDialog();
+
+    void closeProgressDialog();
+
+    void showImageSetupDialog();
+
+    void closeImageSetupDialog();
 }

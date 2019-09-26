@@ -2,16 +2,21 @@ package com.wg.messengerclient.activity_and_fargments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -21,9 +26,14 @@ import com.wg.messengerclient.presenters.transmitters.LoginInfoChangeTransmitter
 import com.wg.messengerclient.presenters.transmitters.ProfileInfoChangesTransmitter;
 import com.wg.messengerclient.presenters.SettingsPresenter;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SettingsFragment extends Fragment implements ISettingView {
     private SettingsPresenter presenter;
@@ -42,6 +52,8 @@ public class SettingsFragment extends Fragment implements ISettingView {
             confirmNewPasswordInputLayout,
             newLoginInputLayout;
     private String birthday;
+    private AlertDialog dialog, setupSetImageMethodDialog;
+    private static final int CAMERA_REQUEST = 0, GALLERY_REQUEST = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,6 +126,10 @@ public class SettingsFragment extends Fragment implements ISettingView {
                     today.getMonth(),
                     today.getDay()
             ).show();
+        });
+
+        view.findViewById(R.id.change_profile_image_button).setOnClickListener(v -> {
+            showImageSetupDialog();
         });
 
         presenter = new SettingsPresenter(this);
@@ -197,6 +213,90 @@ public class SettingsFragment extends Fragment implements ISettingView {
     public void clearAllChangeProfileInfoFields() {
         nameEditText.setText("");
         surnameEditText.setText("");
+    }
+
+    @Override
+    public void showProgressDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.progress_bar_dialog_layout, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
+    @Override
+    public void closeProgressDialog() {
+        if (dialog != null)
+            dialog.dismiss();
+    }
+
+    @Override
+    public void showImageSetupDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.choosing_image_setup_dialog, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setView(dialogView);
+
+        setupSetImageMethodDialog = builder.create();
+
+        dialogView.findViewById(R.id.setup_camera).setOnClickListener(v -> {
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        });
+
+        dialogView.findViewById(R.id.setup_gallery).setOnClickListener(v -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+        });
+
+        setupSetImageMethodDialog.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            Bitmap bitmap = null;
+
+            switch (requestCode){
+                case CAMERA_REQUEST:
+                    bitmap = (Bitmap) data.getExtras().get("data");
+
+                    break;
+                case GALLERY_REQUEST:
+                    /*Uri selectedImage = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    ImageView imageView1 = getView().findViewById(R.id.profile_image2);*/
+                    break;
+            }
+
+
+            File file = new File(getContext().getCacheDir(), "tmp");
+            try(FileOutputStream fOut = new FileOutputStream(file)) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+                presenter.saveProfileIcon(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    @Override
+    public void closeImageSetupDialog() {
+        if (setupSetImageMethodDialog != null)
+            setupSetImageMethodDialog.dismiss();
     }
 
     @Override

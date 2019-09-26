@@ -29,7 +29,7 @@ public abstract class FullProfileInfoDao {
 
         if(profileInfo == null) {
             profileInfo = new FullProfileInfo();
-            profileInfo.index = 1;
+            profileInfo.setIndex(1);
 
             insert(profileInfo);
         }

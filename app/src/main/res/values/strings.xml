@@ -14,4 +14,5 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="exit_from_profile">Выйти из аккаунта</string>
+    <string name="select_image_setup_method">Способ установки иконки</string>
 </resources>

@@ -9,8 +9,6 @@ import androidx.room.Update;
 
 import com.wg.messengerclient.database.entities.BaseProfileInfo;
 
-import java.util.List;
-
 @Dao
 public abstract class BaseProfileInfoDao {
     /*@Query("SELECT * FROM BaseProfileInfo")
@@ -40,7 +38,7 @@ public abstract class BaseProfileInfoDao {
 
         if(profileInfo == null) {
             profileInfo = new BaseProfileInfo();
-            profileInfo.index = 1;
+            profileInfo.setIndex(1);
 
             insert(profileInfo);
         }

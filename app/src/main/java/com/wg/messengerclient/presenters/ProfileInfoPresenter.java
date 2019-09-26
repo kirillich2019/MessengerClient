@@ -46,10 +46,10 @@ public class ProfileInfoPresenter extends TokenSaver {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fullProfileInfoAnswer -> {
                     view.setProfileInfo(
-                            fullProfileInfoAnswer.name,
-                            fullProfileInfoAnswer.surname,
-                            fullProfileInfoAnswer.login,
-                            fullProfileInfoAnswer.birthday,
+                            fullProfileInfoAnswer.getName(),
+                            fullProfileInfoAnswer.getSurname(),
+                            fullProfileInfoAnswer.getLogin(),
+                            fullProfileInfoAnswer.getBirthday(),
                             "fashion bitch"
                     );
                 }, error -> view.showError("Не удалось найти данные профиля на локальном хранилище."));

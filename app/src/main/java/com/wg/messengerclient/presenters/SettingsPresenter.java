@@ -3,6 +3,7 @@ package com.wg.messengerclient.presenters;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -12,21 +13,22 @@ import com.wg.messengerclient.presenters.transmitters.LoginInfoChangeTransmitter
 import com.wg.messengerclient.presenters.transmitters.ProfileInfoChangesTransmitter;
 import com.wg.messengerclient.server.Server;
 
-import java.util.HashMap;
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
     private ISettingView settingView;
-    private Disposable
-            logoutDisposable,
-            changeProfileInfoDisposable,
-            changeLoginInfoDisposable;
+    private FragmentManager fragmentManager;
+    private CompositeDisposable disposables = new CompositeDisposable();
     private static final String
             NAME_PARAM_FIELD = "name",
             SURNAME_PARAM_FIELD = "surname",
@@ -66,7 +68,9 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
                 parameters.put(BIRTHDAY_PARAM_FIELD, transmitter.getBirthday());
             }
 
-            changeProfileInfoDisposable =
+            settingView.showProgressDialog();
+
+            disposables.add(
                     getCurrentUserToken()
                             .flatMap(token -> Server.getInstance().setProfileFields(token, parameters))
                             .subscribeOn(Schedulers.io())
@@ -108,12 +112,19 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
                                         errorСounter++;
                                     }
 
+
+                                    settingView.closeProgressDialog();
                                     return;
                                 }
 
+                                settingView.closeProgressDialog();
                                 settingView.showError("Изменения успешно сохранены.");
-                            }, error -> settingView.showError(error.getMessage()));
-
+                            }, error ->
+                            {
+                                settingView.closeProgressDialog();
+                                settingView.showError(error.getMessage());
+                            })
+            );
         }
     }
 
@@ -147,17 +158,9 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
                 parameters.put(NEW_LOGIN_FIELD, transmitter.getNewLogin());
             }
 
-            /*String currentPass = transmitter.getCurrentPass();
+            settingView.showProgressDialog();
 
-            getCurrentUserToken()
-                    .flatMap(token -> Server.getInstance().setLoginFields(token, transmitter.getCurrentPass(), parameters))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(setProfileInfoAnswer ->{
-                        int i = 0;
-                    });*/
-
-            changeLoginInfoDisposable =
+            disposables.add(
                     getCurrentUserToken()
                             .flatMap(token -> Server.getInstance().setLoginFields(token, transmitter.getCurrentPass(), parameters))
                             .subscribeOn(Schedulers.io())
@@ -166,9 +169,11 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
                                 if (setProfileInfoAnswer.getError() != 0) {
                                     settingView.setCurrentPasswordError(
                                             setProfileInfoAnswer.getErrorText() != null ?
-                                            setProfileInfoAnswer.getErrorText() :
-                                            Integer.toString(setProfileInfoAnswer.getError()
-                                            ));
+                                                    setProfileInfoAnswer.getErrorText() :
+                                                    Integer.toString(setProfileInfoAnswer.getError()
+                                                    ));
+
+                                    settingView.closeProgressDialog();
 
                                     return;
                                 }
@@ -199,14 +204,52 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
                                         errorСounter++;
                                     }
 
+                                    settingView.closeProgressDialog();
+
                                     return;
                                 }
 
                                 settingView.clearAllChangeLoginFields();
+                                settingView.closeProgressDialog();
                                 settingView.showError("Изменения успешно сохранены.");
-                            }, error -> settingView.showError(error.getMessage()));
 
+                            }, error ->
+                            {
+                                settingView.closeProgressDialog();
+                                settingView.showError(error.getMessage());
+                            })
+            );
         }
+    }
+
+    public void saveProfileIcon(File imageFile) {
+        settingView.closeImageSetupDialog();
+        settingView.showProgressDialog();
+
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), imageFile);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("upload", "avatar", fileReqBody);
+
+        disposables.add(getCurrentUserToken()
+                .flatMap(token -> Server.getInstance().setAvatar(token, part))
+                //.flatMap(urlAnswer -> saveCurrentUserAvatarUrl(urlAnswer))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(urlAnswer -> {
+                    if(urlAnswer.getError() != 0){
+                        settingView.showError(urlAnswer.getErrorText());
+                        settingView.closeProgressDialog();
+                        return;
+                    }
+
+                    settingView.showError("all ok");
+                    settingView.closeProgressDialog();
+                }, error -> {
+                    settingView.showError("Соединение с сервером говно.");
+                    settingView.closeProgressDialog();
+                }, () -> {
+                    settingView.closeProgressDialog();
+                })
+        );
     }
 
     @SuppressLint("CheckResult")
@@ -214,26 +257,21 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
         getCurrentUserFullProfileInfoFromDB()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(fullProfileInfo -> settingView.fillingFieldsCurrentData(fullProfileInfo.name, fullProfileInfo.surname));
+                .subscribe(fullProfileInfo -> settingView.fillingFieldsCurrentData(fullProfileInfo.getName(), fullProfileInfo.getSurname()));
     }
 
     @SuppressLint("CheckResult")
     public void logout() {
-        logoutDisposable = delCurrentUser()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(delResult -> settingView.openLoginScreen());
+        disposables.add(
+                delCurrentUser()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(delResult -> settingView.openLoginScreen())
+        );
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     private void onPause() {
-        if (logoutDisposable != null)
-            logoutDisposable.dispose();
-
-        if (changeProfileInfoDisposable != null)
-            changeProfileInfoDisposable.dispose();
-
-        if (changeLoginInfoDisposable != null)
-            changeLoginInfoDisposable.dispose();
+        disposables.dispose();
     }
 }

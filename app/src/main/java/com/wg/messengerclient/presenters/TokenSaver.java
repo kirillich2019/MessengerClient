@@ -8,6 +8,7 @@ import com.wg.messengerclient.database.dao.FullProfileInfoDao;
 import com.wg.messengerclient.database.entities.BaseProfileInfo;
 import com.wg.messengerclient.database.entities.FullProfileInfo;
 import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
+import com.wg.messengerclient.models.server_answers.UrlAnswer;
 
 import io.reactivex.Observable;
 
@@ -21,7 +22,7 @@ public abstract class TokenSaver {
     public Observable saveToken(String token) {
         return Observable.fromCallable(() -> {
                 BaseProfileInfo currentUser = baseProfileInfoDao.getOrCreateAndGetCurrentUser();
-                currentUser.token = token;
+                currentUser.setToken(token);
                 baseProfileInfoDao.update(currentUser);
                 return true;
         });
@@ -37,7 +38,7 @@ public abstract class TokenSaver {
 
 
     public Observable<String> getCurrentUserToken(){
-        return Observable.fromCallable(() -> baseProfileInfoDao.getFirstOrNull().token);
+        return Observable.fromCallable(() -> baseProfileInfoDao.getFirstOrNull().getToken());
     }
 
     public Observable<Boolean> delCurrentUser(){
@@ -60,12 +61,24 @@ public abstract class TokenSaver {
             if(answer.getError() == 0) {
                 FullProfileInfo currentUser = fullProfileInfoDao.getOrCreateAndGetCurrentUser();
 
-                currentUser.id = answer.id;
-                currentUser.login = answer.login;
-                currentUser.name = answer.name;
-                currentUser.surname = answer.surname;
-                currentUser.birthday = answer.birthday;
+                currentUser.setId(answer.id);
+                currentUser.setLogin(answer.login);
+                currentUser.setName(answer.name);
+                currentUser.setSurname(answer.surname);
+                currentUser.setBirthday(answer.birthday);
 
+                fullProfileInfoDao.update(currentUser);
+            }
+
+            return answer;
+        });
+    }
+
+    public Observable<UrlAnswer> saveCurrentUserAvatarUrl(UrlAnswer answer){
+        return Observable.fromCallable(() -> {
+            if(answer.getError() == 0){
+                FullProfileInfo currentUser = fullProfileInfoDao.getFirstOrNull();
+                currentUser.setAvatarUrl(answer.getUrl());
                 fullProfileInfoDao.update(currentUser);
             }
 

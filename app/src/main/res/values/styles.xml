@@ -45,5 +45,4 @@
         <item name="android:textSize">12sp</item>
         <item name="android:background">@drawable/transparant_background</item>
     </style>
-
 </resources>
