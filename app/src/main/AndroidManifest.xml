@@ -15,8 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity_and_fargments.MainApplicationScreenActivity"
-            android:theme="@style/MyTheme.MainActivity"/>
+        <activity
+            android:name=".activity_and_fargments.ShowPhotoActivity" />
+        <activity
+            android:name=".activity_and_fargments.MainApplicationScreenActivity"
+            android:theme="@style/MyTheme.MainActivity" />
         <activity
             android:name=".activity_and_fargments.RegistrationActivity"
             android:noHistory="false"

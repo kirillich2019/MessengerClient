@@ -3,7 +3,6 @@ package com.wg.messengerclient.presenters;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -27,7 +26,6 @@ import okhttp3.RequestBody;
 
 public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
     private ISettingView settingView;
-    private FragmentManager fragmentManager;
     private CompositeDisposable disposables = new CompositeDisposable();
     private static final String
             NAME_PARAM_FIELD = "name",
@@ -72,7 +70,7 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
 
             disposables.add(
                     getCurrentUserToken()
-                            .flatMap(token -> Server.getInstance().setProfileFields(token, parameters))
+                            .flatMap(token -> Server.getInstanceShortOperationsServer().setProfileFields(token, parameters))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(setProfileInfoAnswer -> {
@@ -162,7 +160,7 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
 
             disposables.add(
                     getCurrentUserToken()
-                            .flatMap(token -> Server.getInstance().setLoginFields(token, transmitter.getCurrentPass(), parameters))
+                            .flatMap(token -> Server.getInstanceShortOperationsServer().setLoginFields(token, transmitter.getCurrentPass(), parameters))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(setProfileInfoAnswer -> {
@@ -230,23 +228,28 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
         MultipartBody.Part part = MultipartBody.Part.createFormData("upload", "avatar", fileReqBody);
 
         disposables.add(getCurrentUserToken()
-                .flatMap(token -> Server.getInstance().setAvatar(token, part))
-                //.flatMap(urlAnswer -> saveCurrentUserAvatarUrl(urlAnswer))
+                .flatMap(token -> Server.getInstanceLongOperationsServer().setAvatar(token, part))
+                .flatMap(urlAnswer -> saveCurrentUserAvatarUrl(urlAnswer))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(urlAnswer -> {
-                    if(urlAnswer.getError() != 0){
-                        settingView.showError(urlAnswer.getErrorText());
+                    if (urlAnswer.getError() != 0) {
+                        settingView.showError(
+                                urlAnswer.getErrorText() != null ?
+                                        urlAnswer.getErrorText() :
+                                        Integer.toString(urlAnswer.getError())
+                        );
+
                         settingView.closeProgressDialog();
                         return;
                     }
 
-                    settingView.showError("all ok");
+                    settingView.setupProfileAvatar(urlAnswer.getUrl());
+                    settingView.showError("Загрузка успешно завершилась.");
                     settingView.closeProgressDialog();
                 }, error -> {
-                    settingView.showError("Соединение с сервером говно.");
-                    settingView.closeProgressDialog();
-                }, () -> {
+                    //settingView.showError("Плохое соединение с сервером.");
+                    settingView.showError(error.getMessage());
                     settingView.closeProgressDialog();
                 })
         );
@@ -257,7 +260,13 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
         getCurrentUserFullProfileInfoFromDB()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(fullProfileInfo -> settingView.fillingFieldsCurrentData(fullProfileInfo.getName(), fullProfileInfo.getSurname()));
+                .subscribe(fullProfileInfo ->
+                        settingView.fillingFieldsCurrentData(
+                                fullProfileInfo.getName(),
+                                fullProfileInfo.getSurname(),
+                                fullProfileInfo.getAvatarUrl()
+                        )
+                );
     }
 
     @SuppressLint("CheckResult")
@@ -270,7 +279,7 @@ public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
         );
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     private void onPause() {
         disposables.dispose();
     }

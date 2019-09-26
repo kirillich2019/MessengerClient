@@ -36,8 +36,4 @@ public interface MessengerServerApi {
 
     @GET("/profile/setInfo")
     Observable<SetUserInfoAnswer> setLoginFields(@Query("token") String token, @Query("current_pass") String currentPass, @QueryMap Map<String, String> fields);
-
-    @Multipart
-    @POST("/profile/setAvatar")
-    Observable<UrlAnswer> setAvatar(@Query("token") String token, @Part MultipartBody.Part icon);
 }

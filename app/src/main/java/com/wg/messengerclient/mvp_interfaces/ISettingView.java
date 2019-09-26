@@ -3,7 +3,7 @@ package com.wg.messengerclient.mvp_interfaces;
 public interface ISettingView extends IShowError{
     void openLoginScreen();
 
-    void fillingFieldsCurrentData(String name, String surname);
+    void fillingFieldsCurrentData(String name, String surname, String profileImageUrl);
 
     void onFragmentShow();
 
@@ -32,4 +32,6 @@ public interface ISettingView extends IShowError{
     void showImageSetupDialog();
 
     void closeImageSetupDialog();
+
+    void setupProfileAvatar(String url);
 }

@@ -2,6 +2,7 @@ package com.wg.messengerclient.presenters;
 
 import android.annotation.SuppressLint;
 
+import com.wg.messengerclient.activity_and_fargments.ShowingPhoto;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.server.Server;
 
@@ -14,29 +15,28 @@ public class ProfileInfoPresenter extends TokenSaver {
     public ProfileInfoPresenter(IProfileInfoView view) {
         this.view = view;
 
-        tryGetAndSaveFullProfileInfo();
+        initialFilling();
     }
 
-    //todo кешированные данные грузить после проверки сети
     @SuppressLint("CheckResult")
     public void tryGetAndSaveFullProfileInfo() {
-        Server.getInstance().serverCheck()
+        Server.getInstanceShortOperationsServer().serverCheck()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                    if (result == null) {
-                        filingFieldsFromBD();
-
-                        view.showWarning("Не удаётся получить доступ к серверу.");
-                    } else {
+                    if(result != null) {
                         filingFieldsFromServer();
 
                         view.hideWarning();
                     }
                 }, error -> {
-                    filingFieldsFromBD();
                     view.showWarning("Не удаётся получить доступ к серверу.");
                 });
+    }
+
+    public void initialFilling(){
+        filingFieldsFromBD();
+        tryGetAndSaveFullProfileInfo();
     }
 
     @SuppressLint("CheckResult")
@@ -52,13 +52,16 @@ public class ProfileInfoPresenter extends TokenSaver {
                             fullProfileInfoAnswer.getBirthday(),
                             "fashion bitch"
                     );
+
+                    view.setUserAvatar(fullProfileInfoAnswer.getAvatarUrl());
+
                 }, error -> view.showError("Не удалось найти данные профиля на локальном хранилище."));
     }
 
     @SuppressLint("CheckResult")
     private void filingFieldsFromServer() {
         getCurrentUserToken()
-                .flatMap(token -> Server.getInstance().getPrivateProfileInfo(token))
+                .flatMap(token -> Server.getInstanceShortOperationsServer().getPrivateProfileInfo(token))
                 .flatMap(profileInfoAnswer -> saveCurrentUserFullProfileInfo(profileInfoAnswer))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -76,5 +79,16 @@ public class ProfileInfoPresenter extends TokenSaver {
                             "fashion bitch"
                     );
                 }, error -> view.showError("Не удалось подключиться к серверу."));
+    }
+
+    public void showFullSizeProfilePhoto(){
+        getCurrentUserFullProfileInfoFromDB()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(fullProfileInfo -> {
+                   if(fullProfileInfo.getAvatarUrl() != null){
+                       ShowingPhoto.ShowPhoto(view.getAppContext(), fullProfileInfo.getAvatarUrl());
+                   }
+                });
     }
 }

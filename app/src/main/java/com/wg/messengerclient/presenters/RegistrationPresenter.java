@@ -61,7 +61,7 @@ public class RegistrationPresenter extends TokenSaver implements LifecycleObserv
 
         registrationView.showLoading();
 
-        regDisposable = Server.getInstance().registration(login, password, firstName, lastName)
+        regDisposable = Server.getInstanceShortOperationsServer().registration(login, password, firstName, lastName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(regAnswer -> {

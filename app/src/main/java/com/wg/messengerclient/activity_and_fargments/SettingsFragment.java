@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.ISettingView;
@@ -52,6 +54,7 @@ public class SettingsFragment extends Fragment implements ISettingView {
             confirmNewPasswordInputLayout,
             newLoginInputLayout;
     private String birthday;
+    private ImageView profileAvatar;
     private AlertDialog dialog, setupSetImageMethodDialog;
     private static final int CAMERA_REQUEST = 0, GALLERY_REQUEST = 1;
 
@@ -63,6 +66,9 @@ public class SettingsFragment extends Fragment implements ISettingView {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //imageView
+        profileAvatar = view.findViewById(R.id.profile_image2);
+
         //editText
         nameEditText = view.findViewById(R.id.change_name_textEdit);
         surnameEditText = view.findViewById(R.id.change_surname_textEdit);
@@ -137,12 +143,6 @@ public class SettingsFragment extends Fragment implements ISettingView {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
     public void openLoginScreen() {
         Intent loginActivity = new Intent(getContext(), LoginActivity.class);
         loginActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -150,9 +150,10 @@ public class SettingsFragment extends Fragment implements ISettingView {
     }
 
     @Override
-    public void fillingFieldsCurrentData(String name, String surname) {
+    public void fillingFieldsCurrentData(String name, String surname, String profileImageUrl) {
         nameEditText.setText(name);
         surnameEditText.setText(surname);
+        setupProfileAvatar(profileImageUrl);
     }
 
     @Override
@@ -271,23 +272,26 @@ public class SettingsFragment extends Fragment implements ISettingView {
 
                     break;
                 case GALLERY_REQUEST:
-                    /*Uri selectedImage = data.getData();
+                    Uri selectedImage = data.getData();
+
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    ImageView imageView1 = getView().findViewById(R.id.profile_image2);*/
+
                     break;
             }
 
 
-            File file = new File(getContext().getCacheDir(), "tmp");
-            try(FileOutputStream fOut = new FileOutputStream(file)) {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-                presenter.saveProfileIcon(file);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(bitmap != null){
+                File file = new File(getContext().getCacheDir(), "tmp");
+                try(FileOutputStream fOut = new FileOutputStream(file)) {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                    presenter.saveProfileIcon(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -297,6 +301,17 @@ public class SettingsFragment extends Fragment implements ISettingView {
     public void closeImageSetupDialog() {
         if (setupSetImageMethodDialog != null)
             setupSetImageMethodDialog.dismiss();
+    }
+
+    @Override
+    public void setupProfileAvatar(String url) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.placeholder);
+
+        Glide.with(this)
+                .setDefaultRequestOptions(requestOptions)
+                .load(url)
+                .into(profileAvatar);
     }
 
     @Override

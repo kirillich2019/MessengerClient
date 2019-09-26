@@ -1,5 +1,6 @@
 package com.wg.messengerclient.activity_and_fargments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,9 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.wg.messengerclient.R;
@@ -30,6 +34,7 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
     private Button openInfoButton;
     private Drawable left, rightOpen, rightClose;
     private CardView warningPanel;
+    private ImageView profileAvatar;
 
 
     @Override
@@ -41,6 +46,8 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        profileAvatar = view.findViewById(R.id.profile_image);
 
         fullName = view.findViewById(R.id.full_name_textView);
         birthday_text = view.findViewById(R.id.birthday_textView);
@@ -111,6 +118,10 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
             }
         });
 
+        view.findViewById(R.id.show_profile_photo).setOnClickListener(v -> {
+            profileInfoPresenter.showFullSizeProfilePhoto();
+        });
+
         profileInfoPresenter = new ProfileInfoPresenter(this);
     }
 
@@ -155,8 +166,24 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
     }
 
     @Override
+    public void setUserAvatar(String avatarUrl) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.placeholder);
+
+        Glide.with(this)
+                .setDefaultRequestOptions(requestOptions)
+                .load(avatarUrl)
+                .into(profileAvatar);
+    }
+
+    @Override
     public void onFragmentShow() {
-        profileInfoPresenter.tryGetAndSaveFullProfileInfo();
+        profileInfoPresenter.initialFilling();
+    }
+
+    @Override
+    public Context getAppContext() {
+        return getContext();
     }
 
     @Override

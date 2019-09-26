@@ -57,7 +57,7 @@ public class LoginPresenter extends TokenSaver implements LifecycleObserver {
 
         loginView.showLoading();
 
-        loginDisposable = Server.getInstance().login(login, password)
+        loginDisposable = Server.getInstanceShortOperationsServer().login(login, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(loginAnswer -> {
