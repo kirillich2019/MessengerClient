@@ -3,8 +3,10 @@ package com.wg.messengerclient.activity_and_fargments;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -27,6 +29,12 @@ public class ShowPhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_photo_activity);
 
         String url = getIntent().getStringExtra("url");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.placeholder);
@@ -42,5 +50,11 @@ public class ShowPhotoActivity extends AppCompatActivity {
                       photoView.setImageDrawable(resource);
                   }
               });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

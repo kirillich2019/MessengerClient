@@ -45,4 +45,9 @@
         <item name="android:textSize">12sp</item>
         <item name="android:background">@drawable/transparant_background</item>
     </style>
+
+    <style name="MyTheme.photoView">
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
+    </style>
 </resources>

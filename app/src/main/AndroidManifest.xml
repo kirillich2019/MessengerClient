@@ -16,7 +16,8 @@
         android:theme="@style/MyTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activity_and_fargments.ShowPhotoActivity" />
+            android:name=".activity_and_fargments.ShowPhotoActivity"
+            android:theme="@style/MyTheme.photoView"/>
         <activity
             android:name=".activity_and_fargments.MainApplicationScreenActivity"
             android:theme="@style/MyTheme.MainActivity" />

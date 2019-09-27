@@ -10,6 +10,7 @@
     <string name="settingsText">Настройки</string>
     <string name="settingsText1">Информация профиля:</string>
     <string name="settingsText2">Данные для входа:</string>
+    <string name="photoText">Аватар профиля</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
