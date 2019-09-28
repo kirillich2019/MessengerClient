@@ -51,9 +51,14 @@ public class ProfileInfoPresenter extends TokenSaver {
                             "fashion bitch"
                     );
 
-                    view.setUserAvatar(fullProfileInfoAnswer.getAvatarUrl());
+                    String ava = fullProfileInfoAnswer.getAvatarUrl();
 
-                }, error -> view.showError("Не удалось найти данные профиля на локальном хранилище."));
+                    if(fullProfileInfoAnswer.getAvatarUrl() != null)
+                        view.setUserAvatar(fullProfileInfoAnswer.getAvatarUrl());
+
+                }, error -> {
+                    view.showError("Не удалось найти данные профиля на локальном хранилище.");
+                });
     }
 
     @SuppressLint("CheckResult")
@@ -77,7 +82,10 @@ public class ProfileInfoPresenter extends TokenSaver {
                             "fashion bitch"
                     );
 
-                    view.setUserAvatar(profileInfoAnswer.getAvatar());
+                    String ava = profileInfoAnswer.getAvatar();
+
+                    if(profileInfoAnswer.getAvatar() != null)
+                        view.setUserAvatar(profileInfoAnswer.getAvatar());
                 }, error -> view.showError("Не удалось подключиться к серверу."));
     }
 

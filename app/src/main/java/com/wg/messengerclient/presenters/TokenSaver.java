@@ -66,6 +66,7 @@ public abstract class TokenSaver {
                 currentUser.setName(answer.getName());
                 currentUser.setSurname(answer.getSurname());
                 currentUser.setBirthday(answer.getBirthday());
+                currentUser.setAvatarUrl(answer.getAvatar());
 
                 fullProfileInfoDao.update(currentUser);
             }

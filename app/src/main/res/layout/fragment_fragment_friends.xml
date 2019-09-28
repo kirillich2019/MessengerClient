@@ -23,11 +23,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="TextView"
+                android:text="@string/friendsRequest"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/bc_lightBlue"
-                android:textSize="18sp"
-                tools:text="@string/friendsRequest" />
+                android:textSize="18sp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -43,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/smallPadding">
+            android:paddingLeft="16dp">
 
             <TextView
                 android:id="@+id/userName"
@@ -52,11 +51,10 @@
                 android:layout_weight="0.7"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="left"
-                android:text="TextView"
+                android:text="имя дурака"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/bc_lightBlue"
-                android:textSize="18sp"
-                tools:text="имя дурака" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/acceptRequest"
@@ -65,9 +63,11 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.15"
                 android:background="@drawable/small_radius_round_element_blue"
-                android:text="Button"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="@string/acceptFriendRequest"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@color/colorPrimaryDark"
-                tools:text="@string/acceptFriendRequest" />
+                android:typeface="normal" />
 
             <Button
                 android:id="@+id/noAcceptRequest"
@@ -75,7 +75,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.15"
                 android:background="@drawable/small_radius_rounded_element_orange"
-                android:text="Button"
+                android:text="@string/noAcceptFriendRequest"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@color/colorPrimaryDark"
                 tools:text="@string/noAcceptFriendRequest" />
 

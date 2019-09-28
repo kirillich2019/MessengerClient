@@ -18,7 +18,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity{
     private ISettingView settingView;
     final static String PROFILE_INFO_FRAGMENT_TAG = "PROFILE_INFO";
     final static String SETTINGS_FRAGMENT_TAG = "SETTINGS";
-    final static String FRIRNTS_FRAGMENT_TAG = "FRIENDS";
+    final static String FRIENDS_FRAGMENT_TAG = "FRIENDS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity{
         fragmentManager.beginTransaction()
                 .add(R.id.main_fragment, profileInfo, PROFILE_INFO_FRAGMENT_TAG)
                 .add(R.id.main_fragment, settings, SETTINGS_FRAGMENT_TAG)
-                .add(R.id.main_fragment, friends, FRIRNTS_FRAGMENT_TAG)
+                .add(R.id.main_fragment, friends, FRIENDS_FRAGMENT_TAG)
                 .hide(settings)
                 .hide(friends)
                 .commit();

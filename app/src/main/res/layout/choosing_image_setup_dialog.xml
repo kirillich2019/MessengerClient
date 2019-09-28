@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:fontFamily="monospace"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/select_image_setup_method"
         android:textColor="@color/bc_lightBlue"
         android:textSize="18sp"
         tools:text="@string/select_image_setup_method" />

@@ -121,7 +121,8 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
             }
         });
 
-        view.findViewById(R.id.show_profile_photo).setOnClickListener( v -> profileInfoPresenter.showFullSizeProfilePhoto());
+        CircleImageView circleImageView = view.findViewById(R.id.profile_image);
+        circleImageView.setOnClickListener( v -> profileInfoPresenter.showFullSizeProfilePhoto());
 
         profileInfoPresenter = new ProfileInfoPresenter(this);
     }
