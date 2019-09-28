@@ -4,4 +4,6 @@
     <dimen name="margin">15dp</dimen>
     <dimen name="margin2x">30dp</dimen>
     <dimen name="smallRadius">10dp</dimen>
+    <dimen name="smallMargin">8dp</dimen>
+    <dimen name="smallPadding">8dp</dimen>
 </resources>

@@ -29,9 +29,7 @@ public class ProfileInfoPresenter extends TokenSaver {
 
                         view.hideWarning();
                     }
-                }, error -> {
-                    view.showWarning("Не удаётся получить доступ к серверу.");
-                });
+                }, error -> view.showWarning("Не удаётся получить доступ к серверу."));
     }
 
     public void initialFilling(){
@@ -72,15 +70,18 @@ public class ProfileInfoPresenter extends TokenSaver {
                     }
 
                     view.setProfileInfo(
-                            profileInfoAnswer.name,
-                            profileInfoAnswer.surname,
-                            profileInfoAnswer.login,
-                            profileInfoAnswer.birthday,
+                            profileInfoAnswer.getName(),
+                            profileInfoAnswer.getSurname(),
+                            profileInfoAnswer.getLogin(),
+                            profileInfoAnswer.getBirthday(),
                             "fashion bitch"
                     );
+
+                    view.setUserAvatar(profileInfoAnswer.getAvatar());
                 }, error -> view.showError("Не удалось подключиться к серверу."));
     }
 
+    @SuppressLint("CheckResult")
     public void showFullSizeProfilePhoto(){
         getCurrentUserFullProfileInfoFromDB()
                 .subscribeOn(Schedulers.io())

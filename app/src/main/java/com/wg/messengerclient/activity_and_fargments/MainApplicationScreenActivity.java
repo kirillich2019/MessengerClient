@@ -13,11 +13,12 @@ import com.wg.messengerclient.mvp_interfaces.ISettingView;
 
 public class MainApplicationScreenActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
-    private Fragment profileInfo, settings;
+    private Fragment profileInfo, settings, friends;
     private IProfileInfoView profileInfoView;
     private ISettingView settingView;
     final static String PROFILE_INFO_FRAGMENT_TAG = "PROFILE_INFO";
     final static String SETTINGS_FRAGMENT_TAG = "SETTINGS";
+    final static String FRIRNTS_FRAGMENT_TAG = "FRIENDS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +31,14 @@ public class MainApplicationScreenActivity extends AppCompatActivity{
         profileInfoView = (IProfileInfoView)profileInfo;
         settings = new SettingsFragment();
         settingView = (ISettingView)settings;
+        friends = new FriendsFragment();
 
         fragmentManager.beginTransaction()
                 .add(R.id.main_fragment, profileInfo, PROFILE_INFO_FRAGMENT_TAG)
                 .add(R.id.main_fragment, settings, SETTINGS_FRAGMENT_TAG)
+                .add(R.id.main_fragment, friends, FRIRNTS_FRAGMENT_TAG)
                 .hide(settings)
+                .hide(friends)
                 .commit();
 
         ((BottomNavigationView) findViewById(R.id.bottom_nav_view)).setOnNavigationItemSelectedListener(item -> {
@@ -43,12 +47,17 @@ public class MainApplicationScreenActivity extends AppCompatActivity{
                     fragmentManager.beginTransaction()
                             .show(profileInfo)
                             .hide(settings)
+                            .hide(friends)
                             .commit();
 
                     profileInfoView.onFragmentShow();
                     break;
                 case R.id.friends_fragment:
-
+                    fragmentManager.beginTransaction()
+                            .show(friends)
+                            .hide(settings)
+                            .hide(profileInfo)
+                            .commit();
                     break;
                 case R.id.messages_fragment:
 
@@ -57,6 +66,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity{
                     fragmentManager.beginTransaction()
                             .show(settings)
                             .hide(profileInfo)
+                            .hide(friends)
                             .commit();
 
                     settingView.onFragmentShow();

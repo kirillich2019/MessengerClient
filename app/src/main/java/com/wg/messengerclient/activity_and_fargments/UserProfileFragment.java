@@ -23,9 +23,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.google.android.material.navigation.NavigationView;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.presenters.ProfileInfoPresenter;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserProfileFragment extends Fragment implements IProfileInfoView {
     private ProfileInfoPresenter profileInfoPresenter;
@@ -118,9 +121,7 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
             }
         });
 
-        view.findViewById(R.id.show_profile_photo).setOnClickListener(v -> {
-            profileInfoPresenter.showFullSizeProfilePhoto();
-        });
+        view.findViewById(R.id.show_profile_photo).setOnClickListener( v -> profileInfoPresenter.showFullSizeProfilePhoto());
 
         profileInfoPresenter = new ProfileInfoPresenter(this);
     }

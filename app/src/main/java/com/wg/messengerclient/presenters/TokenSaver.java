@@ -61,11 +61,11 @@ public abstract class TokenSaver {
             if(answer.getError() == 0) {
                 FullProfileInfo currentUser = fullProfileInfoDao.getOrCreateAndGetCurrentUser();
 
-                currentUser.setId(answer.id);
-                currentUser.setLogin(answer.login);
-                currentUser.setName(answer.name);
-                currentUser.setSurname(answer.surname);
-                currentUser.setBirthday(answer.birthday);
+                currentUser.setId(answer.getId());
+                currentUser.setLogin(answer.getLogin());
+                currentUser.setName(answer.getName());
+                currentUser.setSurname(answer.getSurname());
+                currentUser.setBirthday(answer.getBirthday());
 
                 fullProfileInfoDao.update(currentUser);
             }

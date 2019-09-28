@@ -3,7 +3,7 @@
     <string name="passwordField">password</string>
     <string name="loginField">login</string>
     <string name="loginButton">Войти</string>
-    <string name="regButton">Зарегестрироваться</string>
+    <string name="regButton">Зарегистрироваться</string>
     <string name="forgotPassButton">Забыли пароль? Идите, пока-что, нах*й.</string>
     <string name="loginFieldIsEmpty">Заполните поле логина.</string>
     <string name="passFieldIsEmpty">Введите пароль.</string>
@@ -11,6 +11,9 @@
     <string name="settingsText1">Информация профиля:</string>
     <string name="settingsText2">Данные для входа:</string>
     <string name="photoText">Аватар профиля</string>
+    <string name="friendsRequest">Запросы в друзья</string>
+    <string name="acceptFriendRequest">Принять</string>
+    <string name="noAcceptFriendRequest">Отклонить</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

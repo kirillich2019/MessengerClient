@@ -1,13 +1,63 @@
 package com.wg.messengerclient.models.server_answers;
 
 public class ProfileInfoAnswer extends AnswerWithError {
-    public int id;
+    private int id;
 
-    public String login;
+    private String login;
 
-    public String name;
+    private String name;
 
-    public String surname;
+    private String surname;
 
-    public String birthday;
+    private String birthday;
+
+    private String avatar;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }
