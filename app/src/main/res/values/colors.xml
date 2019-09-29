@@ -12,4 +12,5 @@
     <color name="bottom_nav_item_selected_color">#FF7600</color>
     <color name="main_activity_navbar">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="gray">#d3d3d3</color>
 </resources>

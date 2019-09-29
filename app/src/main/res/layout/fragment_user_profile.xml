@@ -73,20 +73,15 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/profile_image"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/placeholder"
-                    app:civ_border_color="@color/bottom_nav_item_selected_color"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-
-
-                </de.hdodenhof.circleimageview.CircleImageView>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/full_name_textView"

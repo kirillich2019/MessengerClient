@@ -24,7 +24,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class SettingsPresenter extends TokenSaver implements LifecycleObserver {
+public class SettingsPresenter extends CacheKeeper implements LifecycleObserver {
     private ISettingView settingView;
     private CompositeDisposable disposables = new CompositeDisposable();
     private static final String

@@ -9,7 +9,7 @@ import com.wg.messengerclient.server.Server;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ProfileInfoPresenter extends TokenSaver {
+public class ProfileInfoPresenter extends CacheKeeper {
     private IProfileInfoView view;
 
     public ProfileInfoPresenter(IProfileInfoView view) {
@@ -50,15 +50,11 @@ public class ProfileInfoPresenter extends TokenSaver {
                             fullProfileInfoAnswer.getBirthday(),
                             "fashion bitch"
                     );
-
-                    String ava = fullProfileInfoAnswer.getAvatarUrl();
-
+                    
                     if(fullProfileInfoAnswer.getAvatarUrl() != null)
                         view.setUserAvatar(fullProfileInfoAnswer.getAvatarUrl());
 
-                }, error -> {
-                    view.showError("Не удалось найти данные профиля на локальном хранилище.");
-                });
+                }, error -> view.showError("Не удалось найти данные профиля на локальном хранилище."));
     }
 
     @SuppressLint("CheckResult")
@@ -81,8 +77,6 @@ public class ProfileInfoPresenter extends TokenSaver {
                             profileInfoAnswer.getBirthday(),
                             "fashion bitch"
                     );
-
-                    String ava = profileInfoAnswer.getAvatar();
 
                     if(profileInfoAnswer.getAvatar() != null)
                         view.setUserAvatar(profileInfoAnswer.getAvatar());

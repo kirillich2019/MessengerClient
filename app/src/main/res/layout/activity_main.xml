@@ -105,7 +105,7 @@
         android:id="@+id/textView"
         android:layout_width="202dp"
         android:layout_height="57dp"
-        android:fontFamily="monospace"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="VEX"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"

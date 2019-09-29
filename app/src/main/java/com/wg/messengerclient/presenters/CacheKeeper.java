@@ -12,11 +12,9 @@ import com.wg.messengerclient.models.server_answers.UrlAnswer;
 
 import io.reactivex.Observable;
 
-public abstract class TokenSaver {
+public abstract class CacheKeeper {
     BaseProfileInfoDao baseProfileInfoDao = SingletonDatabase.getDatabaseInstance().baseProfileInfoDao();
     FullProfileInfoDao fullProfileInfoDao = SingletonDatabase.getDatabaseInstance().fullProfileInfoDao();
-
-
 
     @SuppressLint("CheckResult")
     public Observable saveToken(String token) {

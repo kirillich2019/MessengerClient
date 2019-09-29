@@ -121,8 +121,8 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
             }
         });
 
-        CircleImageView circleImageView = view.findViewById(R.id.profile_image);
-        circleImageView.setOnClickListener( v -> profileInfoPresenter.showFullSizeProfilePhoto());
+
+        profileAvatar.setOnClickListener( v -> profileInfoPresenter.showFullSizeProfilePhoto());
 
         profileInfoPresenter = new ProfileInfoPresenter(this);
     }
@@ -171,6 +171,7 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
     public void setUserAvatar(String avatarUrl) {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.placeholder);
+        requestOptions.circleCrop();
 
         Glide.with(this)
                 .setDefaultRequestOptions(requestOptions)

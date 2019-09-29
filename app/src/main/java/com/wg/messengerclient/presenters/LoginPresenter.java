@@ -18,7 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginPresenter extends TokenSaver implements LifecycleObserver {
+public class LoginPresenter extends CacheKeeper implements LifecycleObserver {
     private final ILoginView loginView;
     private final Context appContext;
     private Disposable loginDisposable;

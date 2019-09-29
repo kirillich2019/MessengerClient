@@ -16,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RegistrationPresenter extends TokenSaver implements LifecycleObserver {
+public class RegistrationPresenter extends CacheKeeper implements LifecycleObserver {
     private IRegistrationView registrationView;
     private Disposable regDisposable;
 
