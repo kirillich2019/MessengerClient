@@ -80,7 +80,9 @@ public class RegistrationActivity extends AppCompatActivity implements IRegistra
 
     @Override
     public void openNextScreen() {
-        Intent regActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
-        startActivity(regActivity);
+        Intent mainAppActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
+        mainAppActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mainAppActivity);
+        finish();
     }
 }

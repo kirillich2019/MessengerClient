@@ -14,6 +14,9 @@ public abstract class FullProfileInfoDao {
     @Query("SELECT * FROM fullprofileinfo WHERE `index` = 1")
     public abstract FullProfileInfo getFirstOrNull();
 
+    @Query("SELECT * FROM fullprofileinfo WHERE `id` = :userId")
+    public abstract FullProfileInfo getById(int userId);
+
     @Insert
     public abstract void insert(FullProfileInfo employee);
 

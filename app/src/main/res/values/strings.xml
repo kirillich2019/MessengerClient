@@ -11,11 +11,14 @@
     <string name="settingsText1">Информация профиля:</string>
     <string name="settingsText2">Данные для входа:</string>
     <string name="photoText">Аватар профиля</string>
-    <string name="friendsRequest">Запросы в друзья</string>
+    <string name="friendsRequest">Входящие запросы в друзья: </string>
     <string name="acceptFriendRequest">Принять</string>
     <string name="noAcceptFriendRequest">Отклонить</string>
+    <string name="sendRequest">Отправить</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="exit_from_profile">Выйти из аккаунта</string>
     <string name="select_image_setup_method">Способ установки иконки</string>
+    <string name="no_friends">Похоже что у вас пока-что нет друзей в нашем приложении =(</string>
+    <string name="friends_label">Ваши друзья: </string>
 </resources>

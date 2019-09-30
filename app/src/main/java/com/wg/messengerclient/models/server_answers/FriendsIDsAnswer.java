@@ -2,7 +2,7 @@ package com.wg.messengerclient.models.server_answers;
 
 import java.util.List;
 
-public class FriendsRequestsAnswer extends AnswerWithError {
+public class FriendsIDsAnswer extends AnswerWithError {
     private List<Integer> ids;
 
 

@@ -13,4 +13,7 @@
     <color name="main_activity_navbar">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gray">#d3d3d3</color>
+    <color name="friendNameColor">#5E89A2</color>
+    <color name="friendLoginColor">#898989</color>
+    <color name="gray_background">#E1F4FF</color>
 </resources>

@@ -67,7 +67,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @Override
     public void openNextScreen() {
-        Intent regActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
-        getApplicationContext().startActivity(regActivity);
+        Intent mainAppActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
+        mainAppActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(mainAppActivity);
+        finish();
     }
 }

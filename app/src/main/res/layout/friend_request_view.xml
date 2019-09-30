@@ -4,69 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/gray_background"
     android:orientation="horizontal">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/verySmallMargin"
-        android:layout_marginTop="@dimen/verySmallMargin"
-        android:layout_marginRight="@dimen/smallMargin"
-        app:cardCornerRadius="@dimen/smallRadius">
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/friend_ava"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="left"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/placeholder" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/friend_req_ava"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="left"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/placeholder" />
+            android:layout_weight="0.7"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/friend_req_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="monospace"
+                android:gravity="left|center_vertical"
+                android:maxLength="20"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="имя дурака"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/bc_lightBlue"
-                android:textSize="18sp" />
+                android:text="ригорийгригорийггригорий"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/friendNameColor"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:gravity="center_vertical" />
 
-            <Button
-                android:id="@+id/accept_request"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginRight="5dp"
-                android:layout_weight="0"
-                android:background="@drawable/small_radius_round_element_blue"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="@string/acceptFriendRequest"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/colorPrimaryDark"
-                android:typeface="normal" />
-
-            <ImageButton
-                android:id="@+id/no_accept_request"
-                android:layout_width="30dp"
-                android:layout_height="48dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="8dp"
-                android:layout_weight="0.15"
-                android:background="@drawable/small_radius_rounded_element_orange"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/close" />
-
+                android:background="@drawable/round_element"
+                android:tag="@string/loginButton"></View>
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/accept_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.13"
+            android:background="@drawable/small_radius_round_element_blue"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="@string/acceptFriendRequest"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:typeface="normal" />
+
+        <ImageButton
+            android:id="@+id/no_accept_request"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="8dp"
+            android:layout_weight="0.05"
+            android:background="@drawable/small_radius_rounded_element_orange"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/close" />
+
+    </LinearLayout>
 
 </LinearLayout>

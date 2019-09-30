@@ -83,7 +83,7 @@ public class FriendsRequestsAdapter extends RecyclerView.Adapter<FriendsRequests
             context = itemView.getContext();
 
             login = itemView.findViewById(R.id.friend_req_login);
-            ava = itemView.findViewById(R.id.friend_req_ava);
+            ava = itemView.findViewById(R.id.friend_ava);
             accept = itemView.findViewById(R.id.accept_request);
             noAccept = itemView.findViewById(R.id.no_accept_request);
 

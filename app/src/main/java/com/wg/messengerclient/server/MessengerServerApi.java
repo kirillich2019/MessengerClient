@@ -1,7 +1,7 @@
 package com.wg.messengerclient.server;
 
 import com.wg.messengerclient.models.server_answers.AnswerWithError;
-import com.wg.messengerclient.models.server_answers.FriendsRequestsAnswer;
+import com.wg.messengerclient.models.server_answers.FriendsIDsAnswer;
 import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
 import com.wg.messengerclient.models.server_answers.SetUserInfoAnswer;
 import com.wg.messengerclient.models.server_answers.WelcomeAnswer;
@@ -38,8 +38,14 @@ public interface MessengerServerApi {
     Observable<SetUserInfoAnswer> setLoginFields(@Query("token") String token, @Query("current_pass") String currentPass, @QueryMap Map<String, String> fields);
 
     @GET("/friends/getRequests")
-    Observable<FriendsRequestsAnswer> getAllFriendsRequests(@Query("token") String token);
+    Observable<FriendsIDsAnswer> getAllFriendsRequests(@Query("token") String token);
 
     @GET("/friends/answer")
     Observable<AnswerWithError> responseToRequest(@Query("token") String token, @Query("id") int id, @Query("accept") int accept);
+
+    @GET("/friends/sendRequest")
+    Observable<AnswerWithError> sendFriendRequest(@Query("token") String token, @Query("login") String login);
+
+    @GET("/friends/getAll")
+    Observable<FriendsIDsAnswer> getAllFriends(@Query("token") String token);
 }

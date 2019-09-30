@@ -25,6 +25,7 @@ import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.wg.messengerclient.R;
+import com.wg.messengerclient.database.entities.FullProfileInfo;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.presenters.ProfileInfoPresenter;
 
@@ -38,7 +39,18 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
     private Drawable left, rightOpen, rightClose;
     private CardView warningPanel;
     private ImageView profileAvatar;
+    private boolean openWithTheGivenData;
+    private FullProfileInfo givenData;
 
+    public UserProfileFragment(){}
+
+    /** Открывает фрагмент без создания презентера
+     * с выводом заранее заданных данных
+     * @param givenData заданные данные*/
+    public UserProfileFragment(@NonNull FullProfileInfo givenData){
+        this.givenData = givenData;
+        openWithTheGivenData = true;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,10 +133,23 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
             }
         });
 
+        if(!openWithTheGivenData){
+            profileAvatar.setOnClickListener( v -> profileInfoPresenter.showFullSizeProfilePhoto());
 
-        profileAvatar.setOnClickListener( v -> profileInfoPresenter.showFullSizeProfilePhoto());
+            profileInfoPresenter = new ProfileInfoPresenter(this);
+        }else {
+            setProfileInfo(
+                    givenData.getName(),
+                    givenData.getSurname(),
+                    givenData.getLogin(),
+                    givenData.getBirthday(),
+                    "status"
+            );
 
-        profileInfoPresenter = new ProfileInfoPresenter(this);
+            profileAvatar.setOnClickListener(v -> ShowingPhoto.ShowPhoto(getContext(), givenData.getAvatarUrl()));
+
+            setUserAvatar(givenData.getAvatarUrl());
+        }
     }
 
     private void setOpenInfoButtonDrawables(boolean isOpen) {
