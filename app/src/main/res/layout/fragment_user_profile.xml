@@ -85,11 +85,11 @@
 
                 <TextView
                     android:id="@+id/full_name_textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="44dp"
-                    android:layout_marginBottom="48dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:lineSpacingExtra="8sp"
                     android:text="Name"
@@ -97,29 +97,26 @@
                     android:textSize="25sp"
                     android:textStyle="bold"
                     android:typeface="normal"
-                    app:layout_constraintBottom_toBottomOf="@+id/profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/profile_image"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/profile_image" />
 
                 <TextView
                     android:id="@+id/status_textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:text="@android:string/status_bar_notification_info_overflow"
                     android:textColor="@color/bc_lightBlue"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/profile_image"
-                    app:layout_constraintTop_toBottomOf="@+id/full_name_textView"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintTop_toBottomOf="@+id/full_name_textView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

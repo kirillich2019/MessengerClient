@@ -98,6 +98,12 @@ public class FriendsPresenter extends CacheKeeper implements LifecycleObserver {
                                 currentFriendsRequests.remove(request);
                                 friendsView.deleteRequest(position);
                                 friendsView.showError("Заявка принята.");
+
+                                //todo заглушка
+                                if (currentFriendsRequests.size() == 0)
+                                    friendsView.hideFriendRequestsLabel();
+
+                                loadFromTheInternetAndCacheAllFriend();
                             }, error -> friendsView.showError("Ошибка принятия запроса в друзья."))
             );
         }
@@ -124,6 +130,12 @@ public class FriendsPresenter extends CacheKeeper implements LifecycleObserver {
                                 currentFriendsRequests.remove(request);
                                 friendsView.deleteRequest(position);
                                 friendsView.showError("Заявка отклонена.");
+
+                                //todo заглушка
+                                if (currentFriendsRequests.size() == 0)
+                                    friendsView.hideFriendRequestsLabel();
+
+                                loadFromTheInternetAndCacheAllFriend();
                             }, error -> friendsView.showError("Ошибка отклонения запроса в друзья."))
             );
         }
@@ -145,9 +157,9 @@ public class FriendsPresenter extends CacheKeeper implements LifecycleObserver {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(answerWithError -> {
-                    if (answerWithError.getError() != 0) {
-                        friendsView.setFriendsSearchButtonActivity(true);
+                    friendsView.setFriendsSearchButtonActivity(true);
 
+                    if (answerWithError.getError() != 0) {
                         Errors errors = Errors.getErrorByCode(answerWithError.getError());
                         if (errors != null) {
                             friendsView.setSearchResultMessage(errors.getMessage());
@@ -255,8 +267,8 @@ public class FriendsPresenter extends CacheKeeper implements LifecycleObserver {
     }
 
     @SuppressLint("CheckResult")
-    public void getFullProfileInfoAndTryOpenUserProfile(int position){
-        if(currentFriends.get(position) != null){
+    public void getFullProfileInfoAndTryOpenUserProfile(int position) {
+        if (currentFriends.get(position) != null) {
             getFullProfileInfoById(currentFriends.get(position).getId())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
