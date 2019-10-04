@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
+import com.wg.messengerclient.GetActionsWorker;
 import com.wg.messengerclient.mvp_interfaces.ISettingView;
 import com.wg.messengerclient.presenters.transmitters.LoginInfoChangeTransmitter;
 import com.wg.messengerclient.presenters.transmitters.ProfileInfoChangesTransmitter;
@@ -271,6 +272,8 @@ public class SettingsPresenter extends CacheKeeper implements LifecycleObserver 
 
     @SuppressLint("CheckResult")
     public void logout() {
+        GetActionsWorker.stopWorker(settingView.getContext());
+
         disposables.add(
                 delCurrentUser()
                         .subscribeOn(Schedulers.io())

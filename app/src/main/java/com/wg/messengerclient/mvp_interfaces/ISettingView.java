@@ -1,5 +1,7 @@
 package com.wg.messengerclient.mvp_interfaces;
 
+import android.content.Context;
+
 public interface ISettingView extends IShowError{
     void openLoginScreen();
 
@@ -34,4 +36,6 @@ public interface ISettingView extends IShowError{
     void closeImageSetupDialog();
 
     void setupProfileAvatar(String url);
+
+    Context getContext();
 }

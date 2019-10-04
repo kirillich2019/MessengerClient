@@ -14,7 +14,8 @@
         android:roundIcon="@drawable/logo1"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="n">
         <activity
             android:name=".activity_and_fargments.ShowPhotoActivity"
             android:theme="@style/MyTheme.photoView"/>

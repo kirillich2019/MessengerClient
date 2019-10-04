@@ -16,7 +16,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public abstract class CacheKeeper {
+public class CacheKeeper {
     BaseProfileInfoDao baseProfileInfoDao = SingletonDatabase.getDatabaseInstance().baseProfileInfoDao();
     FullProfileInfoDao fullProfileInfoDao = SingletonDatabase.getDatabaseInstance().fullProfileInfoDao();
     MyFriendsDao myFriendsDao = SingletonDatabase.getDatabaseInstance().myFriendsDao();
@@ -42,6 +42,10 @@ public abstract class CacheKeeper {
 
     public Observable<String> getCurrentUserToken() {
         return Observable.fromCallable(() -> baseProfileInfoDao.getFirstOrNull().getToken());
+    }
+
+    public Observable<BaseProfileInfo> getCurrentUser(){
+        return Observable.fromCallable(() -> baseProfileInfoDao.getFirstOrNull());
     }
 
     public Observable<Boolean> delCurrentUser() {

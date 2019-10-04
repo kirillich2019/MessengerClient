@@ -12,6 +12,8 @@ public class BaseProfileInfo {
 
     private String token;
 
+    private int lastActionsId;
+
     public int getIndex() {
         return index;
     }
@@ -34,5 +36,13 @@ public class BaseProfileInfo {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getLastActionsId() {
+        return lastActionsId;
+    }
+
+    public void setLastActionsId(int lastActionsId) {
+        this.lastActionsId = lastActionsId;
     }
 }

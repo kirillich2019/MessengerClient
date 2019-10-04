@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.wg.messengerclient.GetActionsWorker;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
 import com.wg.messengerclient.presenters.LoginPresenter;
@@ -67,6 +68,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @Override
     public void openNextScreen() {
+        GetActionsWorker.startWorker(getApplicationContext());
+
         Intent mainAppActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
         mainAppActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(mainAppActivity);
