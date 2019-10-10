@@ -1,11 +1,14 @@
 package com.wg.messengerclient.presenters;
 
 import android.annotation.SuppressLint;
+import android.widget.Toast;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
+import com.wg.messengerclient.long_pol_actions.DistributeRxEventBus;
+import com.wg.messengerclient.models.server_answers.ActionType;
 import com.wg.messengerclient.models.server_answers.Errors;
 import com.wg.messengerclient.models.server_answers.internalEntities.FriendInfo;
 import com.wg.messengerclient.models.server_answers.internalEntities.FriendRequest;
@@ -28,12 +31,26 @@ public class FriendsPresenter extends CacheKeeper implements LifecycleObserver {
     private List<FriendRequest> currentFriendsRequests = new ArrayList<>();
     private List<FriendInfo> currentFriends = new ArrayList<>();
 
+    @SuppressLint("CheckResult")
     public FriendsPresenter(IFriendsView friendsView) {
         this.friendsView = friendsView;
 
         loadAllInFriendRequestList();
         loadFriendsFromDB();
         loadFromTheInternetAndCacheAllFriend();
+
+        DistributeRxEventBus.GetInstance()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action -> {
+                    switch (action.getType()) {
+                        case ActionType.FRIEND_REQUEST_RECEIVED:
+                            friendsView.clearAllFriendsRequestList();//todo заменить на нормальную реализацию
+                            loadAllInFriendRequestList();
+                            break;
+                    }
+                });
     }
 
     @SuppressLint("CheckResult")

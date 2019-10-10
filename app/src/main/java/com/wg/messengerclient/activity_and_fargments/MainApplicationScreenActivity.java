@@ -4,15 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.database.entities.FullProfileInfo;
 import com.wg.messengerclient.interfaces.IOpenUserProfile;
+import com.wg.messengerclient.long_pol_actions.DistributeRxEventBus;
+import com.wg.messengerclient.models.server_answers.ActionType;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.mvp_interfaces.ISettingView;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainApplicationScreenActivity extends AppCompatActivity implements IOpenUserProfile {
     private FragmentManager fragmentManager;
@@ -25,6 +32,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
     final static String USER_PROFILE_FRAGMENT_TAG = "USER_PROFILE";
     private String currentFragmentTag;
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +105,24 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
 
             return true;
         });
+
+        DistributeRxEventBus.GetInstance()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action -> {
+                    switch (action.getType()) {
+                        case ActionType.FRIEND_REQUEST_RECEIVED:
+                            Toast.makeText(getApplicationContext(), "Новый запрос в други.", Toast.LENGTH_SHORT).show();
+                            break;
+                        case ActionType.FRIEND_REQUEST_ACCEPTED:
+                            Toast.makeText(getApplicationContext(), "Запрос в друзья принят", Toast.LENGTH_SHORT).show();
+                            break;
+                        case ActionType.MESSAGE:
+                            Toast.makeText(getApplicationContext(), "Новое сообщение.", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                });
     }
 
     private void closeUserProfileFragmentIfOpen(){

@@ -9,6 +9,8 @@ import java.util.Collection;
 public interface IFriendsView extends IShowError {
     void showAllInFriendsRequests(Collection<FriendRequest> requests);
 
+    void clearAllFriendsRequestList();
+
     void showAllFriends(Collection<FriendInfo> friendInfoCollection);
 
     void clearFriendsList();

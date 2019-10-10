@@ -119,6 +119,11 @@ public class FriendsFragment extends Fragment implements IFriendsView {
     }
 
     @Override
+    public void clearAllFriendsRequestList() {
+        friendsRequestsAdapter.clearAllRequest();
+    }
+
+    @Override
     public void showAllFriends(Collection<FriendInfo> friendInfoCollection) {
         myFriendsAdapter.clearAllFriend();
         myFriendsAdapter.setFriends(friendInfoCollection);

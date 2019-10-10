@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.wg.messengerclient.GetActionsWorker;
+import com.wg.messengerclient.long_pol_actions.GetActionsWorker;
 import com.wg.messengerclient.mvp_interfaces.ISettingView;
 import com.wg.messengerclient.presenters.transmitters.LoginInfoChangeTransmitter;
 import com.wg.messengerclient.presenters.transmitters.ProfileInfoChangesTransmitter;

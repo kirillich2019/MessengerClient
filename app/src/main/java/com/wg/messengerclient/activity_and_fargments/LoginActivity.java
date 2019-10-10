@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.wg.messengerclient.GetActionsWorker;
+import com.wg.messengerclient.long_pol_actions.GetActionsWorker;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
 import com.wg.messengerclient.presenters.LoginPresenter;

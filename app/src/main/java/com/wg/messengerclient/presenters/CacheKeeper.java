@@ -94,11 +94,11 @@ public class CacheKeeper {
         });
     }
 
-    protected Observable<FullProfileInfo> getCurrentUserFullProfileInfoFromDB() {
+    public Observable<FullProfileInfo> getCurrentUserFullProfileInfoFromDB() {
         return Observable.fromCallable(() -> fullProfileInfoDao.getFirstOrNull());
     }
 
-    protected Observable<ProfileInfoAnswer> cacheFriendUser(ProfileInfoAnswer profileInfoAnswer) {
+    public Observable<ProfileInfoAnswer> cacheFriendUser(ProfileInfoAnswer profileInfoAnswer) {
         return Observable.fromCallable(() -> {
             if (profileInfoAnswer.getError() == 0) {
                 FriendId friendId = myFriendsDao.getById(profileInfoAnswer.getId());
@@ -116,11 +116,11 @@ public class CacheKeeper {
         });
     }
 
-    protected Observable<List<FriendId>> getCacheFrieds(){
+    public Observable<List<FriendId>> getCacheFrieds(){
         return Observable.fromCallable(() -> myFriendsDao.getAll());
     }
 
-    protected Observable<FullProfileInfo> getFullProfileInfoById(int id){
+    public Observable<FullProfileInfo> getFullProfileInfoById(int id){
         return Observable.fromCallable(() -> {
             FullProfileInfo fullProfileInfo = fullProfileInfoDao.getById(id);
 
@@ -152,5 +152,15 @@ public class CacheKeeper {
             fullProfileInfoDao.insert(profileInfo);
         else
             fullProfileInfoDao.update(profileInfo);
+    }
+
+    public Observable<Boolean> saveLastActionsId(int lastActionsId){
+        return Observable.fromCallable(() -> {
+            BaseProfileInfo currentUser = baseProfileInfoDao.getFirstOrNull();
+            currentUser.setLastActionsId(lastActionsId);
+            baseProfileInfoDao.update(currentUser);
+
+            return true;
+        });
     }
 }

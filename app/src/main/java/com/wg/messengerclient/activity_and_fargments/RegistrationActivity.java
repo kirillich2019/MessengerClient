@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.wg.messengerclient.long_pol_actions.GetActionsWorker;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.IRegistrationView;
 import com.wg.messengerclient.presenters.RegistrationPresenter;
@@ -80,6 +81,8 @@ public class RegistrationActivity extends AppCompatActivity implements IRegistra
 
     @Override
     public void openNextScreen() {
+        GetActionsWorker.startWorker(getApplicationContext());
+
         Intent mainAppActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
         mainAppActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mainAppActivity);
