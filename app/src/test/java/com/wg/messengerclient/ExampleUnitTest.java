@@ -2,6 +2,8 @@ package com.wg.messengerclient;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.*;
 
 /**
@@ -12,6 +14,9 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        HashMap<Integer, Integer> a = new HashMap<Integer, Integer>() {{
+            put(1, 1);
+            put(2, 2);
+        }};
     }
 }

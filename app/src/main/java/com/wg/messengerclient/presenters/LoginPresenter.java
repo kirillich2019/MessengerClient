@@ -74,8 +74,8 @@ public class LoginPresenter extends CacheKeeper implements LifecycleObserver {
                         loginView.closeLoading();
                     }
                 }, error -> {
-                    loginView.showError("Нет подключения к интернету.");
-
+                    //loginView.showError("Нет подключения к интернету.");
+                    loginView.showError(error.getMessage());
                     loginView.closeLoading();
                 });
     }

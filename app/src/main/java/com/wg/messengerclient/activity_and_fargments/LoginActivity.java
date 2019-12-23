@@ -71,6 +71,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         GetActionsWorker.startWorker(getApplicationContext());
 
         Intent mainAppActivity = new Intent(getApplicationContext(), MainApplicationScreenActivity.class);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Boolean openFriendsFragment = (Boolean) extras.get("openFriendsFragment");
+
+            if (openFriendsFragment != null && openFriendsFragment)
+                mainAppActivity.putExtra("openFriendsFragment", true);
+        }
+
         mainAppActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(mainAppActivity);
         finish();

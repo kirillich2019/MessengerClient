@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Server {
-    private static final String BASE_URL = "http://176.57.217.44";
+    private static final String BASE_URL = "http://188.225.84.32:1488";
 
     private static MessengerServerApi serverApi;
     private static LongOperationMessengerServerApi longOperationMessengerServerApi;

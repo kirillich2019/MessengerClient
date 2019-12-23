@@ -182,7 +182,6 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/round_element"
                 android:fontFamily="monospace"
-                android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/close"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

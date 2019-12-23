@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,6 +18,8 @@ import com.wg.messengerclient.long_pol_actions.DistributeRxEventBus;
 import com.wg.messengerclient.models.server_answers.ActionType;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.mvp_interfaces.ISettingView;
+
+import java.util.Objects;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -38,14 +41,16 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_application_screen);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         fragmentManager = getSupportFragmentManager();
 
         profileInfo = new UserProfileFragment();
-        profileInfoView = (IProfileInfoView)profileInfo;
+        profileInfoView = (IProfileInfoView) profileInfo;
         settings = new SettingsFragment();
-        settingView = (ISettingView)settings;
+        settingView = (ISettingView) settings;
         friends = new FriendsFragment(this);
 
         fragmentManager.beginTransaction()
@@ -58,10 +63,22 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
 
         currentFragmentTag = MY_PROFILE_INFO_FRAGMENT_TAG;
 
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Boolean openFriendsFragment = (Boolean) extras.get("openFriendsFragment");
+
+            if (openFriendsFragment != null && openFriendsFragment){
+                BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_view);
+                bottomNavigationView.setSelectedItemId(R.id.friends_fragment);
+                openFriendsFragment();
+            }
+        }
+
         ((BottomNavigationView) findViewById(R.id.bottom_nav_view)).setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.profile_fragment:
-                    if(currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
+                    if (currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
                         closeUserProfileFragmentIfOpen();
 
                     fragmentManager.beginTransaction()
@@ -74,22 +91,13 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                     profileInfoView.onFragmentShow();
                     break;
                 case R.id.friends_fragment:
-                    if(currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
-                        closeUserProfileFragmentIfOpen();
-
-                    fragmentManager.beginTransaction()
-                            .show(friends)
-                            .hide(settings)
-                            .hide(profileInfo)
-                            .commit();
-
-                    currentFragmentTag = FRIENDS_FRAGMENT_TAG;
+                    openFriendsFragment();
                     break;
                 case R.id.messages_fragment:
 
                     break;
                 case R.id.settings_fragment:
-                    if(currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
+                    if (currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
                         closeUserProfileFragmentIfOpen();
 
                     fragmentManager.beginTransaction()
@@ -125,13 +133,26 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                 });
     }
 
-    private void closeUserProfileFragmentIfOpen(){
+    private void openFriendsFragment() {
+        if (currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
+            closeUserProfileFragmentIfOpen();
+
+        fragmentManager.beginTransaction()
+                .show(friends)
+                .hide(settings)
+                .hide(profileInfo)
+                .commit();
+
+        currentFragmentTag = FRIENDS_FRAGMENT_TAG;
+    }
+
+    private void closeUserProfileFragmentIfOpen() {
         Fragment oldUserProfileFragment = fragmentManager.findFragmentByTag(USER_PROFILE_FRAGMENT_TAG);
 
-        if(oldUserProfileFragment != null)
+        if (oldUserProfileFragment != null)
             fragmentManager.beginTransaction()
-            .remove(oldUserProfileFragment)
-            .commit();
+                    .remove(oldUserProfileFragment)
+                    .commit();
     }
 
     @Override
