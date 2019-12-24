@@ -26,12 +26,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainApplicationScreenActivity extends AppCompatActivity implements IOpenUserProfile {
     private FragmentManager fragmentManager;
-    private Fragment profileInfo, settings, friends;
+    private Fragment profileInfo, settings, friends, messages;
     private IProfileInfoView profileInfoView;
     private ISettingView settingView;
     final static String MY_PROFILE_INFO_FRAGMENT_TAG = "PROFILE_INFO";
     final static String SETTINGS_FRAGMENT_TAG = "SETTINGS";
     final static String FRIENDS_FRAGMENT_TAG = "FRIENDS";
+    final static String MESSAGES_FRAGMENT_TAG = "MESSAGES";
     final static String USER_PROFILE_FRAGMENT_TAG = "USER_PROFILE";
     private String currentFragmentTag;
 
@@ -53,16 +54,20 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
         settingView = (ISettingView) settings;
         friends = new FriendsFragment(this);
 
+        messages = new MessagesFragment();
+
+
         fragmentManager.beginTransaction()
                 .add(R.id.main_fragment, profileInfo, MY_PROFILE_INFO_FRAGMENT_TAG)
                 .add(R.id.main_fragment, settings, SETTINGS_FRAGMENT_TAG)
                 .add(R.id.main_fragment, friends, FRIENDS_FRAGMENT_TAG)
+                .add(R.id.main_fragment, messages, MESSAGES_FRAGMENT_TAG)
                 .hide(settings)
                 .hide(friends)
+                .hide(messages)
                 .commit();
 
         currentFragmentTag = MY_PROFILE_INFO_FRAGMENT_TAG;
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -75,6 +80,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
             }
         }
 
+        //todo вынести открытие фрагментов в отдельный метод, слишком много повторений
         ((BottomNavigationView) findViewById(R.id.bottom_nav_view)).setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.profile_fragment:
@@ -83,6 +89,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
 
                     fragmentManager.beginTransaction()
                             .show(profileInfo)
+                            .hide(messages)
                             .hide(settings)
                             .hide(friends)
                             .commit();
@@ -94,7 +101,17 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                     openFriendsFragment();
                     break;
                 case R.id.messages_fragment:
+                    if (currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
+                        closeUserProfileFragmentIfOpen();
 
+                    fragmentManager.beginTransaction()
+                            .show(messages)
+                            .hide(settings)
+                            .hide(profileInfo)
+                            .hide(friends)
+                            .commit();
+
+                    currentFragmentTag = MESSAGES_FRAGMENT_TAG;
                     break;
                 case R.id.settings_fragment:
                     if (currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
@@ -103,6 +120,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                     fragmentManager.beginTransaction()
                             .show(settings)
                             .hide(profileInfo)
+                            .hide(messages)
                             .hide(friends)
                             .commit();
 
@@ -139,6 +157,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
 
         fragmentManager.beginTransaction()
                 .show(friends)
+                .hide(messages)
                 .hide(settings)
                 .hide(profileInfo)
                 .commit();
