@@ -26,13 +26,16 @@ import com.wg.messengerclient.database.entities.BaseProfileInfo;
 import com.wg.messengerclient.models.server_answers.Action;
 import com.wg.messengerclient.models.server_answers.ActionType;
 import com.wg.messengerclient.models.server_answers.ActionsAnswer;
+import com.wg.messengerclient.models.server_answers.MessagesAnswer;
 import com.wg.messengerclient.presenters.CacheKeeper;
 import com.wg.messengerclient.server.LongOperationMessengerServerApi;
 import com.wg.messengerclient.server.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class GetActionsWorker extends Worker {
@@ -82,7 +85,18 @@ public class GetActionsWorker extends Worker {
                             showNotification(getApplicationContext(), "Запрос в друзья одобрен.", String.valueOf(action.getId()));
                             break;
                         case ActionType.MESSAGE:
-                            showNotification(getApplicationContext(), "Новое сообщение.", String.valueOf(action.getId()));
+                            //todo тупу на коленке тупо выпиливать
+                            cacheKeeper.getCurrentUserToken()
+                                    .flatMap(token -> Server.getInstanceShortOperationsServer().getMessages(token, 3, 1, 100))
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(messagesList -> {
+                                                ArrayList<MessagesAnswer> list = (ArrayList<MessagesAnswer>) messagesList;
+                                                showNotification(getApplicationContext(), "Новое сообщение.", list.get(list.size() - 1).getText());
+                                            }, error -> {
+                                            }
+                                    );
+
                             break;
                     }
                 }

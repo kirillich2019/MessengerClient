@@ -2,12 +2,15 @@ package com.wg.messengerclient.server;
 
 import com.wg.messengerclient.models.server_answers.AnswerWithError;
 import com.wg.messengerclient.models.server_answers.FriendsIDsAnswer;
+import com.wg.messengerclient.models.server_answers.Message;
+import com.wg.messengerclient.models.server_answers.MessagesAnswer;
 import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
 import com.wg.messengerclient.models.server_answers.SetUserInfoAnswer;
 import com.wg.messengerclient.models.server_answers.WelcomeAnswer;
 import com.wg.messengerclient.models.server_answers.LoginAnswer;
 import com.wg.messengerclient.models.server_answers.RegistrationAnswer;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -48,4 +51,7 @@ public interface MessengerServerApi {
 
     @GET("/friends/getAll")
     Observable<FriendsIDsAnswer> getAllFriends(@Query("token") String token);
+
+    @GET("/dialogs/getMessages")
+    Observable<List<MessagesAnswer>> getMessages(@Query("token") String token, @Query("id") int id, @Query("messageId") int messageId, @Query("limit") int limit);
 }
