@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/smallMargin"
+    android:background="@color/gray_background"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/dialog_ava"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/placeholder" />
+
+
+    <TextView
+        android:id="@+id/last_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="left"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:text="login"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/friendLoginColor"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/dialog_ava"
+        app:layout_constraintTop_toBottomOf="@+id/friend_name" />
+
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/round_element"
+        android:tag="@string/loginButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dialog_ava"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_ava"></View>
+
+    <TextView
+        android:id="@+id/friend_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:gravity="left"
+        android:maxLength="20"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:text="name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/friendNameColor"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/dialog_ava"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="григорийлох юрковлох" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

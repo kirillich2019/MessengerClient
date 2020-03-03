@@ -16,23 +16,25 @@ import com.wg.messengerclient.database.entities.FullProfileInfo;
 import com.wg.messengerclient.interfaces.IOpenUserProfile;
 import com.wg.messengerclient.long_pol_actions.DistributeRxEventBus;
 import com.wg.messengerclient.models.server_answers.ActionType;
+import com.wg.messengerclient.mvp_interfaces.IChatsView;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.mvp_interfaces.ISettingView;
-
-import java.util.Objects;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainApplicationScreenActivity extends AppCompatActivity implements IOpenUserProfile {
     private FragmentManager fragmentManager;
-    private Fragment profileInfo, settings, friends;
+    private Fragment profileInfo, settings, friends, chatsFragment;
     private IProfileInfoView profileInfoView;
     private ISettingView settingView;
+    private IChatsView chatsView;
     final static String MY_PROFILE_INFO_FRAGMENT_TAG = "PROFILE_INFO";
     final static String SETTINGS_FRAGMENT_TAG = "SETTINGS";
     final static String FRIENDS_FRAGMENT_TAG = "FRIENDS";
     final static String USER_PROFILE_FRAGMENT_TAG = "USER_PROFILE";
+    final static String CHATS_FRAGMENT_TAG = "CHATS";
+
     private String currentFragmentTag;
 
     @SuppressLint("CheckResult")
@@ -49,20 +51,26 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
 
         profileInfo = new UserProfileFragment();
         profileInfoView = (IProfileInfoView) profileInfo;
+
         settings = new SettingsFragment();
         settingView = (ISettingView) settings;
+
         friends = new FriendsFragment(this);
+
+        chatsFragment = new ChatFragment();
+        chatsView = (IChatsView) chatsFragment;
 
         fragmentManager.beginTransaction()
                 .add(R.id.main_fragment, profileInfo, MY_PROFILE_INFO_FRAGMENT_TAG)
                 .add(R.id.main_fragment, settings, SETTINGS_FRAGMENT_TAG)
                 .add(R.id.main_fragment, friends, FRIENDS_FRAGMENT_TAG)
+                .add(R.id.main_fragment, chatsFragment, CHATS_FRAGMENT_TAG)
                 .hide(settings)
                 .hide(friends)
+                .hide(chatsFragment)
                 .commit();
 
         currentFragmentTag = MY_PROFILE_INFO_FRAGMENT_TAG;
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -85,6 +93,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                             .show(profileInfo)
                             .hide(settings)
                             .hide(friends)
+                            .hide(chatsFragment)
                             .commit();
 
                     currentFragmentTag = MY_PROFILE_INFO_FRAGMENT_TAG;
@@ -94,7 +103,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                     openFriendsFragment();
                     break;
                 case R.id.messages_fragment:
-
+                    openChatsFragment();
                     break;
                 case R.id.settings_fragment:
                     if (currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
@@ -104,6 +113,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                             .show(settings)
                             .hide(profileInfo)
                             .hide(friends)
+                            .hide(chatsFragment)
                             .commit();
 
                     currentFragmentTag = SETTINGS_FRAGMENT_TAG;
@@ -141,9 +151,26 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                 .show(friends)
                 .hide(settings)
                 .hide(profileInfo)
+                .hide(chatsFragment)
                 .commit();
 
         currentFragmentTag = FRIENDS_FRAGMENT_TAG;
+    }
+
+    private void openChatsFragment(){
+        if (currentFragmentTag == USER_PROFILE_FRAGMENT_TAG)
+            closeUserProfileFragmentIfOpen();
+
+        fragmentManager.beginTransaction()
+                .show(chatsFragment)
+                .hide(settings)
+                .hide(profileInfo)
+                .hide(friends)
+                .commit();
+
+        chatsView.OnFragmentShow();
+
+        currentFragmentTag = CHATS_FRAGMENT_TAG;
     }
 
     private void closeUserProfileFragmentIfOpen() {

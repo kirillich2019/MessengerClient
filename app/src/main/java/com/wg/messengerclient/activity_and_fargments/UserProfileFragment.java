@@ -66,7 +66,6 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
 
         fullName = view.findViewById(R.id.full_name_textView);
         birthday_text = view.findViewById(R.id.birthday_textView);
-        status_text = view.findViewById(R.id.status_textView);
         login_text = view.findViewById(R.id.login_textView);
         warningText = view.findViewById(R.id.warning_text);
         warningPanel = view.findViewById(R.id.warningCardView);
@@ -177,11 +176,6 @@ public class UserProfileFragment extends Fragment implements IProfileInfoView {
             fullNameString += " " + surname;
 
         fullName.setText(fullNameString);
-
-        if (status != null) {
-            status_text.setText(status);
-        } else
-            status_text.setVisibility(View.INVISIBLE);
 
         birthday_text.setText("birthday: " + (birthday != null ? birthday : "не указано"));
 
