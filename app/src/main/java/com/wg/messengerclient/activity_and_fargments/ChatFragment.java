@@ -1,4 +1,6 @@
 package com.wg.messengerclient.activity_and_fargments;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,18 +12,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.adapter.ChatsAdapter;
-import com.wg.messengerclient.models.server_answers.internalEntities.Chat;
+import com.wg.messengerclient.database.entities.DialogWidthMessagesLink;
 import com.wg.messengerclient.mvp_interfaces.IChatsView;
 import com.wg.messengerclient.presenters.ChatsPresenter;
+import com.wg.messengerclient.presenters.messageSystem.MessageSystemSingleton;
+
+import java.util.Collection;
 
 public class ChatFragment extends Fragment implements IChatsView {
-    private RecyclerView chatsResyclerView;
+    private RecyclerView chatsRecyclerView;
     private ChatsAdapter chatsAdapter;
     private ChatsPresenter presenter;
+
+    private TextView onLoadDialogsText;
+    private ProgressBar onLoadDialogsProgressBar;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -37,29 +47,46 @@ public class ChatFragment extends Fragment implements IChatsView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        chatsResyclerView = view.findViewById(R.id.my_chats_res_view);
-        chatsResyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        onLoadDialogsProgressBar = view.findViewById(R.id.load_chats_progressbar);
+        onLoadDialogsText = view.findViewById(R.id.load_chats_text);
+
+        chatsRecyclerView = view.findViewById(R.id.my_chats_res_view);
+        chatsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         presenter = new ChatsPresenter(this);
         getLifecycle().addObserver(presenter);
 
-        ChatsAdapter.OnChatClickListener chatClickListener = new ChatsAdapter.OnChatClickListener() {
-            @Override
-            public void onChatClick(int position) {
-                showError("test");
-            }
+        ChatsAdapter.OnChatClickListener chatClickListener = position -> {
+            Intent dialogActivity = new Intent(getContext(), DialogActivity.class);
+            dialogActivity.putExtra(MessageSystemSingleton.DIALOG_ID_EXTRA_TAG, chatsAdapter.getChatByPostion(position).dialogDbEntity.getDialogId());
+            getContext().startActivity(dialogActivity);
         };
 
         chatsAdapter = new ChatsAdapter(chatClickListener);
-        chatsResyclerView.setAdapter(chatsAdapter);
+        chatsRecyclerView.setAdapter(chatsAdapter);
     }
 
     @Override
-    public void OnFragmentShow() {
-        chatsAdapter.addChat(new Chat(0, "login1", "a"));
-        chatsAdapter.addChat(new Chat(1, "login2", "a"));
-        chatsAdapter.addChat(new Chat(2, "login3", "a"));
-        chatsAdapter.addChat(new Chat(3, "login4", "a"));
+    public void onFragmentShow() {
+        presenter.updateDialogsAndShow();
+    }
+
+    @Override
+    public void showLoadSpinner(boolean show) {
+        onLoadDialogsText.setVisibility(View.GONE);
+        onLoadDialogsProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setChats(Collection<DialogWidthMessagesLink> dialogsCollection) {
+        chatsAdapter.clearAllChats();
+
+        chatsAdapter.setChats(dialogsCollection);
+    }
+
+    @Override
+    public void clearChats() {
+        chatsAdapter.clearAllChats();
     }
 
     @Override

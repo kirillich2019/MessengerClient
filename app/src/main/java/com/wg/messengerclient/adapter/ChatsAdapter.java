@@ -14,16 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.wg.messengerclient.R;
-import com.wg.messengerclient.models.server_answers.internalEntities.Chat;
-import com.wg.messengerclient.models.server_answers.internalEntities.FriendRequest;
+import com.wg.messengerclient.database.entities.DialogWidthMessagesLink;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder>{
+public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder> {
     private ChatsAdapter.OnChatClickListener onChatClickListner;
-    private List<Chat> allChats = new ArrayList<>();
+    private List<DialogWidthMessagesLink> allChats = new ArrayList<>();
 
     public ChatsAdapter(ChatsAdapter.OnChatClickListener onChatClickListner) {
         this.onChatClickListner = onChatClickListner;
@@ -42,22 +41,26 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder>
         holder.bind(allChats.get(position));
     }
 
-    public void addChat(Chat newChat){
+    public void addChat(DialogWidthMessagesLink newChat) {
         allChats.add(newChat);
         notifyDataSetChanged();
     }
 
-    public void deleteChat(int position){
+    public DialogWidthMessagesLink getChatByPostion(int postion){
+        return allChats.get(postion);
+    }
+
+    public void deleteChat(int position) {
         allChats.remove(position);
         notifyDataSetChanged();
     }
 
-    public void clearAllChats(){
+    public void clearAllChats() {
         allChats.clear();
         notifyDataSetChanged();
     }
 
-    public void setChat(Collection<Chat> chats){
+    public void setChats(Collection<DialogWidthMessagesLink> chats) {
         allChats.addAll(chats);
         notifyDataSetChanged();
     }
@@ -69,9 +72,11 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder>
 
     class ChatsHolder extends RecyclerView.ViewHolder {
         private TextView lastMsg;
+        private TextView name;
         private ImageView ava;
         private ConstraintLayout layout;
         private Context context;
+        private ImageView newMsgFlag;
 
         public ChatsHolder(View itemView) {
             super(itemView);
@@ -81,20 +86,34 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder>
             layout = itemView.findViewById(R.id.chat_layout);
             lastMsg = itemView.findViewById(R.id.last_msg);
             ava = itemView.findViewById(R.id.dialog_ava);
-
+            name = itemView.findViewById(R.id.dialog_name);
+            newMsgFlag = itemView.findViewById(R.id.newMsgFlagImageView);
             layout.setOnClickListener(v -> onChatClickListner.onChatClick(getLayoutPosition()));
         }
 
-        public void bind(Chat request){
+        public void bind(DialogWidthMessagesLink chat) {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.placeholder(R.drawable.placeholder);
 
             Glide.with(context)
                     .setDefaultRequestOptions(requestOptions)
-                    .load(request.getAvaUrl())
+                    .load(chat.dialogDbEntity.getInterlocutor().getAvatarUrl())
                     .into(ava);
 
-            lastMsg.setText("@:" + request.getLogin());
+
+            int size = chat.messages.size();
+
+            if (size > 0)
+                lastMsg.setText(chat.messages.get(size - 1).getMessage().getText());
+            else
+                lastMsg.setText("");
+
+            name.setText(chat.dialogDbEntity.getInterlocutor().getLogin());
+
+            if(chat.dialogDbEntity.getThereAreNewMsg())
+                newMsgFlag.setVisibility(View.VISIBLE);
+            else
+                newMsgFlag.setVisibility(View.GONE);
         }
     }
 

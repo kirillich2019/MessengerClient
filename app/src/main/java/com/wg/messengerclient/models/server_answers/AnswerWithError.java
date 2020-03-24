@@ -12,5 +12,15 @@ public class AnswerWithError {
         return error;
     }
 
-    public String getErrorText() { return errorText; }
+    public String getErrorText() {
+        return errorText;
+    }
+
+    public void setError(int error) {
+        this.error = error;
+    }
+
+    public void setErrorText(String errorText) {
+        this.errorText = errorText;
+    }
 }

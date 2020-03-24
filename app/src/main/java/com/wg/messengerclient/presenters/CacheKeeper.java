@@ -1,12 +1,18 @@
 package com.wg.messengerclient.presenters;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.wg.messengerclient.database.MyAppImplementation;
 import com.wg.messengerclient.database.SingletonDatabase;
 import com.wg.messengerclient.database.dao.BaseProfileInfoDao;
+import com.wg.messengerclient.database.dao.DialogDao;
 import com.wg.messengerclient.database.dao.FullProfileInfoDao;
 import com.wg.messengerclient.database.dao.MyFriendsDao;
 import com.wg.messengerclient.database.entities.BaseProfileInfo;
+import com.wg.messengerclient.database.entities.DialogEntity;
+import com.wg.messengerclient.database.entities.DialogWidthMessagesLink;
 import com.wg.messengerclient.database.entities.FriendId;
 import com.wg.messengerclient.database.entities.FullProfileInfo;
 import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
@@ -15,11 +21,22 @@ import com.wg.messengerclient.models.server_answers.UrlAnswer;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class CacheKeeper {
     BaseProfileInfoDao baseProfileInfoDao = SingletonDatabase.getDatabaseInstance().baseProfileInfoDao();
     FullProfileInfoDao fullProfileInfoDao = SingletonDatabase.getDatabaseInstance().fullProfileInfoDao();
+    DialogDao dialogDao = SingletonDatabase.getDatabaseInstance().dialogsDao();
     MyFriendsDao myFriendsDao = SingletonDatabase.getDatabaseInstance().myFriendsDao();
+
+    private SharedPreferences sPref;
+    private final String LAST_ACTION = "LAST_ACTION_ID";
+    private final int DEFAULT_ACTION_ID = -1;
+
+    public CacheKeeper(){
+        sPref = PreferenceManager.getDefaultSharedPreferences(MyAppImplementation.getmContext());
+    }
 
     @SuppressLint("CheckResult")
     public Observable saveToken(String token) {
@@ -154,13 +171,95 @@ public class CacheKeeper {
             fullProfileInfoDao.update(profileInfo);
     }
 
-    public Observable<Boolean> saveLastActionsId(int lastActionsId){
+    /*public Observable<Boolean> saveLastActionsId(int lastActionsId){
         return Observable.fromCallable(() -> {
             BaseProfileInfo currentUser = baseProfileInfoDao.getFirstOrNull();
+
+            if(currentUser == null)
+                return false;
+
             currentUser.setLastActionsId(lastActionsId);
             baseProfileInfoDao.update(currentUser);
 
             return true;
+        });
+    }*/
+
+    public Observable<List<DialogWidthMessagesLink>> getAllDialogs(){
+        return Observable.fromCallable(() -> dialogDao.getAll());
+    }
+
+    public Observable<Boolean> addDialogToDB(int dialogId){
+        return Observable.fromCallable(() -> {
+           DialogWidthMessagesLink dialog = dialogDao.getDialogById(dialogId);
+
+           if(dialog != null)
+               return true;
+
+           DialogEntity dialogDbEntity = new DialogEntity(dialogId);
+           dialog = new DialogWidthMessagesLink(dialogDbEntity,null);
+
+           dialogDao.insert(dialog);
+
+           return true;
+        });
+    }
+
+    public Observable<DialogWidthMessagesLink> getDialogById(int dialogId){
+        return Observable.fromCallable(() -> {
+            DialogWidthMessagesLink dialog = dialogDao.getDialogById(dialogId);
+
+            if(dialog == null)
+                return new DialogWidthMessagesLink(null, null);
+
+            return dialog;
+        });
+    }
+
+    public Observable<Boolean> saveLastActionId(int lastActionId){
+        return Observable.fromCallable(() ->
+        {
+            Integer id = baseProfileInfoDao.getFirstOrNull().getId();
+
+            if(id == null)
+                return false;
+
+            sPref.edit().putInt(LAST_ACTION + id.toString(), lastActionId);
+            sPref.edit().commit();
+
+            return true;
+
+            /*BaseProfileInfo currentUser = baseProfileInfoDao.getFirstOrNull();
+            if(currentUser == null) {
+                return false;
+            }
+
+            currentUser.setLastActionsId(lastActionId);
+
+            baseProfileInfoDao.update(currentUser);
+
+            return true;*/
+        });
+    }
+
+    public Observable<Integer> getLastActionId(){
+        return Observable.fromCallable(() ->
+        {
+            Integer id = baseProfileInfoDao.getFirstOrNull().getId();
+
+            if(id == null)
+                return DEFAULT_ACTION_ID;
+
+            Integer result = sPref.getInt(LAST_ACTION + id.toString(), DEFAULT_ACTION_ID);
+
+            return result;
+
+            /*BaseProfileInfo currentUser = baseProfileInfoDao.getFirstOrNull();
+
+            if(currentUser == null)
+                return -1;
+
+            return currentUser.getLastActionsId();*/
         });
     }
 }

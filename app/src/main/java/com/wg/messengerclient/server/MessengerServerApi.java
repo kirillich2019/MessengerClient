@@ -2,7 +2,7 @@ package com.wg.messengerclient.server;
 
 import com.wg.messengerclient.models.server_answers.AnswerWithError;
 import com.wg.messengerclient.models.server_answers.FriendsIDsAnswer;
-import com.wg.messengerclient.models.server_answers.Message;
+import com.wg.messengerclient.models.server_answers.LastActionIdAnswer;
 import com.wg.messengerclient.models.server_answers.MessagesAnswer;
 import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
 import com.wg.messengerclient.models.server_answers.SetUserInfoAnswer;
@@ -54,4 +54,6 @@ public interface MessengerServerApi {
 
     @GET("/dialogs/getMessages")
     Observable<List<MessagesAnswer>> getMessages(@Query("token") String token, @Query("id") int id, @Query("messageId") int messageId, @Query("limit") int limit);
+
+    Observable<LastActionIdAnswer> getLastActionId(@Query("token") String token);
 }

@@ -11,6 +11,17 @@
 
 
     <ImageView
+        android:id="@+id/newMsgFlagImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_help" />
+
+    <ImageView
         android:id="@+id/dialog_ava"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -24,7 +35,7 @@
         android:id="@+id/last_msg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="4dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="left"
         android:paddingLeft="10dp"
@@ -35,8 +46,7 @@
         android:textColor="@color/friendLoginColor"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/dialog_ava"
-        app:layout_constraintTop_toBottomOf="@+id/friend_name" />
-
+        app:layout_constraintTop_toBottomOf="@+id/dialog_name" />
 
     <View
         android:id="@+id/view3"
@@ -50,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/dialog_ava"></View>
 
     <TextView
-        android:id="@+id/friend_name"
+        android:id="@+id/dialog_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="monospace"

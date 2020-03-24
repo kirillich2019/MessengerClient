@@ -249,7 +249,6 @@ public class SettingsPresenter extends CacheKeeper implements LifecycleObserver 
                     settingView.showError("Загрузка успешно завершилась.");
                     settingView.closeProgressDialog();
                 }, error -> {
-                    //settingView.showError("Плохое соединение с сервером.");
                     settingView.showError(error.getMessage());
                     settingView.closeProgressDialog();
                 })

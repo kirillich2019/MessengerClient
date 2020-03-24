@@ -7,12 +7,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -26,21 +24,17 @@ import com.wg.messengerclient.database.entities.BaseProfileInfo;
 import com.wg.messengerclient.models.server_answers.Action;
 import com.wg.messengerclient.models.server_answers.ActionType;
 import com.wg.messengerclient.models.server_answers.ActionsAnswer;
-import com.wg.messengerclient.models.server_answers.MessagesAnswer;
 import com.wg.messengerclient.presenters.CacheKeeper;
 import com.wg.messengerclient.server.LongOperationMessengerServerApi;
+import com.wg.messengerclient.server.MessengerServerApi;
 import com.wg.messengerclient.server.Server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class GetActionsWorker extends Worker {
     public static final String TAG = "NOTIFICATION";
-    private LongOperationMessengerServerApi server = Server.getInstanceLongOperationsServer();
+    private LongOperationMessengerServerApi serverLong = Server.getInstanceLongOperationsServer();
+    private MessengerServerApi serverMessanger = Server.getInstanceShortOperationsServer();
     BaseProfileInfoDao baseProfileInfoDao = SingletonDatabase.getDatabaseInstance().baseProfileInfoDao();
     CacheKeeper cacheKeeper = new CacheKeeper();
 
@@ -55,11 +49,11 @@ public class GetActionsWorker extends Worker {
     }
 
     public static void startWorker(Context context) {
-        OneTimeWorkRequest myWorkRequest = new OneTimeWorkRequest.Builder(GetActionsWorker.class)
+        /*OneTimeWorkRequest myWorkRequest = new OneTimeWorkRequest.Builder(GetActionsWorker.class)
                 .addTag(TAG)
                 .build();
 
-        WorkManager.getInstance(context).enqueue(myWorkRequest);
+        WorkManager.getInstance(context).enqueue(myWorkRequest);*/
     }
 
     @SuppressLint("CheckResult")
@@ -71,34 +65,36 @@ public class GetActionsWorker extends Worker {
             try {
                 BaseProfileInfo user = Utils.await(cacheKeeper.getCurrentUser());
                 Log.d(TAG, "waiting");
-                ActionsAnswer response = server.getActions(user.getToken(), user.getLastActionsId()).execute().body();
+                ActionsAnswer response = serverLong.getActions(user.getToken(), user.getLastActionsId()).execute().body();
                 Log.d(TAG, "done");
+
+  /*              int lastActionId = Utils.await(cacheKeeper.getLastActionId());
+                BaseProfileInfo user = Utils.await(cacheKeeper.getCurrentUser());
+
+                if (lastActionId == -1) {
+                    int lastActionIdAnswer = Utils.await(serverMessanger.getLastActionId(user.getToken())).getId();
+                    Utils.await(cacheKeeper.saveLastActionId(lastActionId));
+                    continue;
+                }
+*/
+                //ActionsAnswer response = serverLong.getActions(user.getToken(), user.getLastActionsId()).execute().body();
 
                 for (Action action : response.getActions()) {
                     DistributeRxEventBus.GetInstance().send(action);
 
                     switch (action.getType()) {
                         case ActionType.FRIEND_REQUEST_RECEIVED:
-                            showNotification(getApplicationContext(), "Новый запрос в друзья.", String.valueOf(action.getId()));
+                            showNotification(getApplicationContext(), "Новый запрос в друзья.", "");
                             break;
                         case ActionType.FRIEND_REQUEST_ACCEPTED:
-                            showNotification(getApplicationContext(), "Запрос в друзья одобрен.", String.valueOf(action.getId()));
+                            showNotification(getApplicationContext(), "Запрос в друзья одобрен.", "");
                             break;
                         case ActionType.MESSAGE:
-                            //todo тупу на коленке тупо выпиливать
-                            cacheKeeper.getCurrentUserToken()
-                                    .flatMap(token -> Server.getInstanceShortOperationsServer().getMessages(token, 3, 1, 100))
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(messagesList -> {
-                                                ArrayList<MessagesAnswer> list = (ArrayList<MessagesAnswer>) messagesList;
-                                                showNotification(getApplicationContext(), "Новое сообщение.", list.get(list.size() - 1).getText());
-                                            }, error -> {
-                                            }
-                                    );
-
+                            showNotification(getApplicationContext(), "Новое сообщение", "");
                             break;
                     }
+
+                    //Utils.await(cacheKeeper.saveLastActionId(action.getId()));
                 }
 
                 if (!response.getActions().isEmpty()) {
@@ -116,6 +112,7 @@ public class GetActionsWorker extends Worker {
     private static final int NOTIFY_ID = 199017283;
     private static final String CHANNEL_ID = TAG;
 
+    //todo открытие диалогов
     private void showNotification(
             Context context,
             String title,

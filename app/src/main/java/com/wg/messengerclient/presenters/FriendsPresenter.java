@@ -241,6 +241,8 @@ public class FriendsPresenter extends CacheKeeper implements LifecycleObserver {
                                                             )
                                                     );
                                                 }
+
+                                                friendsView.clearFriendsList();
                                             }, error -> friendsView.showError("Ошибка загрузки друзей."),
                                             () -> friendsView.showAllFriends(currentFriends));
                         }, error -> friendsView.showError(error.getMessage())));

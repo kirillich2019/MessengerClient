@@ -168,7 +168,7 @@ public class MainApplicationScreenActivity extends AppCompatActivity implements 
                 .hide(friends)
                 .commit();
 
-        chatsView.OnFragmentShow();
+        chatsView.onFragmentShow();
 
         currentFragmentTag = CHATS_FRAGMENT_TAG;
     }

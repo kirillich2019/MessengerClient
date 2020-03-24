@@ -1,23 +1,22 @@
 package com.wg.messengerclient.models.server_answers.internalEntities;
 
+
+import com.wg.messengerclient.database.entities.DialogWidthMessagesLink;
+
 /*
 Класс чата для использования на клиенте
  */
 public class Chat {
-    private int id;
-
     private String login;
 
     private String avaUrl;
 
-    public Chat(int id, String login, String avaUrl) {
-        this.id = id;
+    private DialogWidthMessagesLink dialog;
+
+    public Chat(String login, String avaUrl, DialogWidthMessagesLink dialog) {
         this.login = login;
         this.avaUrl = avaUrl;
-    }
-
-    public int getId() {
-        return id;
+        this.dialog = dialog;
     }
 
     public String getLogin() {
@@ -28,11 +27,15 @@ public class Chat {
         return avaUrl;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public DialogWidthMessagesLink getDialog() {
+        return dialog;
+    }
+
+    public void setDialog(DialogWidthMessagesLink dialog) {
+        this.dialog = dialog;
     }
 }
