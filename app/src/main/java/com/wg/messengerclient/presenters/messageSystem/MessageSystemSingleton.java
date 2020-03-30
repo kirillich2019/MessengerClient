@@ -10,8 +10,6 @@ import com.wg.messengerclient.database.entities.FullProfileInfo;
 import com.wg.messengerclient.database.entities.MessageDbEntity;
 import com.wg.messengerclient.models.server_answers.MessagesAnswer;
 import com.wg.messengerclient.presenters.CacheKeeper;
-import com.wg.messengerclient.presenters.messageSystem.events.DataLoadingSatusChangeEvent;
-import com.wg.messengerclient.presenters.messageSystem.events.DataLoadingStatus;
 import com.wg.messengerclient.presenters.messageSystem.events.DialogStatus;
 import com.wg.messengerclient.presenters.messageSystem.events.DialogStatusChangeEvent;
 import com.wg.messengerclient.presenters.messageSystem.interfaces.MessageSystemEventsListner;
@@ -86,28 +84,38 @@ public class MessageSystemSingleton {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(dialog -> {
-                            Log.d("tag1", "complite " + dialog.dialogDbEntity.getDialogId());
-                            fireDialogStatusChangeEvent(new DialogStatusChangeEvent(this, DialogStatus.DIALOG_LOADING_COMPLETED, dialog));
-                        }, error -> {
-                            Log.d("tag1", error.getMessage());
-                            fireDialogStatusChangeEvent(new DialogStatusChangeEvent(this, DialogStatus.DIALOG_LOADING_FILED));
-                        })
+                            //будет update диалога только если есть новое сообщение
+                            if(dialog.dialogDbEntity.getThereAreNewMsg()){
+                                fireDialogStatusChangeEvent(new DialogStatusChangeEvent(this, DialogStatus.DIALOG_UPDATE_COMPLETED, dialog));
+                                Log.d("tag1", "update dialog " + dialog.dialogDbEntity.getDialogId());
+                            }
+                        }, error -> fireDialogStatusChangeEvent(new DialogStatusChangeEvent(this, DialogStatus.DIALOG_LOADING_FILED)))
         );
     }
 
+    //todo нормальные обновдения сообщений
     private Observable<DialogWidthMessagesLink> downloadDialog(int friendId) {
         return Observable.fromCallable(() -> {
-            if(currentDialogs.containsKey(friendId)){
+            int lastMsgId = 1;
 
+            DialogWidthMessagesLink dialog = null;
+
+            Boolean dialogFound = currentDialogs.containsKey(friendId);
+
+            Boolean newMsgExist = !dialogFound;
+
+            if(dialogFound){
+                dialog = currentDialogs.get(friendId);
+                if(dialog.messages.size() > 0){
+                    lastMsgId = dialog.messages.get(dialog.messages.size() - 1).getMessage().getId();
+                }
             }
 
             FullProfileInfo friendProfileInfo = Utils.await(cacheKeeper.getFullProfileInfoById(friendId));
-            //Log.d("tag1", "load info " + friendId);
             String token = Utils.await(cacheKeeper.getCurrentUserToken());
 
             ArrayList<MessageDbEntity> messages = new ArrayList<>();
 
-            int lastMsgId = 1;
             int limit = 1000;
 
             while (true) {
@@ -119,16 +127,30 @@ public class MessageSystemSingleton {
                     messages.add(new MessageDbEntity(friendId, msg));
                 }
 
+                if(newMessages.size() > 0)
+                    newMsgExist = true;
+
                 if (messages.size() < 1000)
                     break;
 
                 lastMsgId += limit;
             }
 
-            DialogEntity dialogEntity = new DialogEntity(friendId);
-            dialogEntity.setInterlocutor(friendProfileInfo);
 
-            return new DialogWidthMessagesLink(dialogEntity, messages);
+            if(!dialogFound){
+                DialogEntity dialogEntity = new DialogEntity(friendId);
+                dialogEntity.setInterlocutor(friendProfileInfo);
+
+                dialog = new DialogWidthMessagesLink(dialogEntity, messages);
+
+                dialog.dialogDbEntity.setThereAreNewMsg(newMsgExist);
+                currentDialogs.put(dialog.dialogDbEntity.getDialogId(), dialog);
+            }else{
+                dialog.messages.addAll(messages);
+                dialog.dialogDbEntity.setThereAreNewMsg(newMsgExist);
+            }
+
+            return dialog;
         });
     }
 

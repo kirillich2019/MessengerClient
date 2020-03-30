@@ -23,7 +23,7 @@ public class ChatsPresenter implements LifecycleObserver, MessageSystemEventsLis
         MessageSystemSingleton.getInstance().addEventListner(this);
     }
 
-    public void updateDialogsAndShow() {
+    public void updateDialogs() {
         chatsView.showLoadSpinner(true);
         MessageSystemSingleton.getInstance().startCheckNewMsg();
     }
@@ -50,9 +50,8 @@ public class ChatsPresenter implements LifecycleObserver, MessageSystemEventsLis
     @Override
     public void dialogStatusChange(DialogStatusChangeEvent event) {
         switch (event.getDialogStatus()){
-            case NEW_MSG_IN_DIALOG:
-            case DIALOG_LOADING_COMPLETED:
-                chatsView.setOrUpdateChat(event.getModifiedDialog());
+            case DIALOG_UPDATE_COMPLETED:
+                chatsView.addOrUpdateChat(event.getModifiedDialog());
                 break;
         }
     }

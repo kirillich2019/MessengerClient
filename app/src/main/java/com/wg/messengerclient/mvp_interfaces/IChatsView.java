@@ -12,7 +12,9 @@ public interface IChatsView extends IShowError {
 
     void setChats(Collection<DialogWidthMessagesLink> chatsCollection);
 
-    void setOrUpdateChat(DialogWidthMessagesLink chat);
+    void addOrUpdateChat(DialogWidthMessagesLink chat);
+
+    void addChat(DialogWidthMessagesLink chat);
 
     void clearChats();
 }

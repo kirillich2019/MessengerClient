@@ -68,7 +68,7 @@ public class ChatFragment extends Fragment implements IChatsView {
 
     @Override
     public void onFragmentShow() {
-        presenter.updateDialogsAndShow();
+        presenter.updateDialogs();
     }
 
     @Override
@@ -82,6 +82,16 @@ public class ChatFragment extends Fragment implements IChatsView {
         chatsAdapter.clearAllChats();
 
         chatsAdapter.setChats(dialogsCollection);
+    }
+
+    @Override
+    public void addOrUpdateChat(DialogWidthMessagesLink chat) {
+        chatsAdapter.setOrUpdateChat(chat);
+    }
+
+    @Override
+    public void addChat(DialogWidthMessagesLink chat) {
+        chatsAdapter.addChat(chat);
     }
 
     @Override

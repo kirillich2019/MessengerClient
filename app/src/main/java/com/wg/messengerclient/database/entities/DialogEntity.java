@@ -14,6 +14,9 @@ public class DialogEntity {
     @Ignore
     private FullProfileInfo interlocutor;
 
+    @Ignore
+    private boolean thereAreNewMsg;
+
     public DialogEntity(int dialogId){
         this.dialogId = dialogId;
     }
@@ -25,8 +28,6 @@ public class DialogEntity {
     public void setDialogId(int dialogId) {
         this.dialogId = dialogId;
     }
-
-    private boolean thereAreNewMsg;
 
     public boolean getThereAreNewMsg() {
         return thereAreNewMsg;

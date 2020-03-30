@@ -18,6 +18,7 @@ import com.wg.messengerclient.database.entities.DialogWidthMessagesLink;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder> {
@@ -43,6 +44,19 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder>
 
     public void addChat(DialogWidthMessagesLink newChat) {
         allChats.add(newChat);
+        notifyDataSetChanged();
+    }
+
+    public void setOrUpdateChat(DialogWidthMessagesLink updatedChat){
+        for (int i = 0; i < allChats.size(); i++){
+            if(allChats.get(i).dialogDbEntity.getDialogId() == updatedChat.dialogDbEntity.getDialogId()){
+                allChats.set(i, updatedChat);
+                notifyDataSetChanged();
+                return;
+            }
+        }
+
+        allChats.add(updatedChat);
         notifyDataSetChanged();
     }
 
