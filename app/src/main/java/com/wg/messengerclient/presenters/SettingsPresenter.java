@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
+import com.wg.messengerclient.AddingPortToUrl;
 import com.wg.messengerclient.long_pol_actions.GetActionsWorker;
 import com.wg.messengerclient.mvp_interfaces.ISettingView;
 import com.wg.messengerclient.presenters.transmitters.LoginInfoChangeTransmitter;
@@ -245,7 +246,7 @@ public class SettingsPresenter extends CacheKeeper implements LifecycleObserver 
                         return;
                     }
 
-                    settingView.setupProfileAvatar(urlAnswer.getUrl());
+                    settingView.setupProfileAvatar(AddingPortToUrl.addPort(urlAnswer.getUrl(), "1488"));
                     settingView.showError("Загрузка успешно завершилась.");
                     settingView.closeProgressDialog();
                 }, error -> {
@@ -264,7 +265,7 @@ public class SettingsPresenter extends CacheKeeper implements LifecycleObserver 
                         settingView.fillingFieldsCurrentData(
                                 fullProfileInfo.getName(),
                                 fullProfileInfo.getSurname(),
-                                fullProfileInfo.getAvatarUrl()
+                                AddingPortToUrl.addPort(fullProfileInfo.getAvatarUrl(), "1488")
                         )
                 );
     }

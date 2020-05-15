@@ -5,6 +5,7 @@ import com.wg.messengerclient.models.server_answers.FriendsIDsAnswer;
 import com.wg.messengerclient.models.server_answers.LastActionIdAnswer;
 import com.wg.messengerclient.models.server_answers.MessagesAnswer;
 import com.wg.messengerclient.models.server_answers.ProfileInfoAnswer;
+import com.wg.messengerclient.models.server_answers.SendMessageAnswer;
 import com.wg.messengerclient.models.server_answers.SetUserInfoAnswer;
 import com.wg.messengerclient.models.server_answers.WelcomeAnswer;
 import com.wg.messengerclient.models.server_answers.LoginAnswer;
@@ -55,5 +56,9 @@ public interface MessengerServerApi {
     @GET("/dialogs/getMessages")
     Observable<List<MessagesAnswer>> getMessages(@Query("token") String token, @Query("id") int id, @Query("messageId") int messageId, @Query("limit") int limit);
 
+    @GET("/getLastActionId")
     Observable<LastActionIdAnswer> getLastActionId(@Query("token") String token);
+
+    @GET("/dialogs/sendMessage")
+    Observable<SendMessageAnswer> sendMessage(@Query("token") String token, @Query("id") int id, @Query("text") String text, @Query("randomUUID") String randomUUID);
 }

@@ -73,8 +73,13 @@ public class ChatFragment extends Fragment implements IChatsView {
 
     @Override
     public void showLoadSpinner(boolean show) {
-        onLoadDialogsText.setVisibility(View.GONE);
-        onLoadDialogsProgressBar.setVisibility(View.GONE);
+        if (show) {
+            onLoadDialogsText.setVisibility(View.VISIBLE);
+            onLoadDialogsProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            onLoadDialogsText.setVisibility(View.GONE);
+            onLoadDialogsProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override

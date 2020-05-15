@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 @Entity
 
 public class DialogEntity {
@@ -17,7 +19,18 @@ public class DialogEntity {
     @Ignore
     private boolean thereAreNewMsg;
 
-    public DialogEntity(int dialogId){
+    @Ignore
+    private List<MessageDbEntity> newMessages;
+
+    public List<MessageDbEntity> getNewMessages() {
+        return newMessages;
+    }
+
+    public void setNewMessages(List<MessageDbEntity> newMessages) {
+        this.newMessages = newMessages;
+    }
+
+    public DialogEntity(int dialogId) {
         this.dialogId = dialogId;
     }
 
@@ -29,19 +42,19 @@ public class DialogEntity {
         this.dialogId = dialogId;
     }
 
-    public boolean getThereAreNewMsg() {
-        return thereAreNewMsg;
-    }
-
-    public void setThereAreNewMsg(boolean thereAreNewMsg) {
-        this.thereAreNewMsg = thereAreNewMsg;
-    }
-
     public FullProfileInfo getInterlocutor() {
         return interlocutor;
     }
 
     public void setInterlocutor(FullProfileInfo interlocutor) {
         this.interlocutor = interlocutor;
+    }
+
+    public boolean isThereAreNewMsg() {
+        return thereAreNewMsg;
+    }
+
+    public void setThereAreNewMsg(boolean thereAreNewMsg) {
+        this.thereAreNewMsg = thereAreNewMsg;
     }
 }

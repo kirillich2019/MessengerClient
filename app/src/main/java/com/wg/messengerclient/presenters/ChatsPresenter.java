@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import com.wg.messengerclient.mvp_interfaces.IChatsView;
 import com.wg.messengerclient.presenters.messageSystem.MessageSystemSingleton;
-import com.wg.messengerclient.presenters.messageSystem.events.DataLoadingSatusChangeEvent;
 import com.wg.messengerclient.presenters.messageSystem.events.DialogStatusChangeEvent;
 import com.wg.messengerclient.presenters.messageSystem.interfaces.MessageSystemEventsListner;
 
@@ -34,25 +33,17 @@ public class ChatsPresenter implements LifecycleObserver, MessageSystemEventsLis
     }
 
     @Override
-    public void dialogListLoadingStatusChange(DataLoadingSatusChangeEvent event) {
-        /*chatsView.showLoadSpinner(false);
-
-        switch (event.getDataLoadingStatus()){
-            case COMPLETED:
-                chatsView.setChats(MessageSystemSingleton.getInstance().getCurrentDialogs());
-                break;
-            case FAILED:
-                chatsView.showError("chats list loading failed");
-                break;
-        }*/
-    }
-
-    @Override
     public void dialogStatusChange(DialogStatusChangeEvent event) {
         switch (event.getDialogStatus()){
-            case DIALOG_UPDATE_COMPLETED:
+            case DIALOG_HAVE_CHANGES:
                 chatsView.addOrUpdateChat(event.getModifiedDialog());
                 break;
+            case DIALOG_LOADING_FILED:
+                chatsView.showError("Ошибка загрузки диалогов");
+                break;
+
         }
+
+        chatsView.showLoadSpinner(false);
     }
 }

@@ -1,5 +1,7 @@
 package com.wg.messengerclient.models.server_answers;
 
+import com.wg.messengerclient.AddingPortToUrl;
+
 public class ProfileInfoAnswer extends AnswerWithError {
     private int id;
 
@@ -54,7 +56,7 @@ public class ProfileInfoAnswer extends AnswerWithError {
     }
 
     public String getAvatar() {
-        return avatar;
+        return this.avatar;
     }
 
     public void setAvatar(String avatar) {

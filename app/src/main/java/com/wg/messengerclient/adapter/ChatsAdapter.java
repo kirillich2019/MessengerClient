@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.wg.messengerclient.AddingPortToUrl;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.database.entities.DialogWidthMessagesLink;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder> {
@@ -111,7 +111,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder>
 
             Glide.with(context)
                     .setDefaultRequestOptions(requestOptions)
-                    .load(chat.dialogDbEntity.getInterlocutor().getAvatarUrl())
+                    .load(AddingPortToUrl.addPort(chat.dialogDbEntity.getInterlocutor().getAvatarUrl(), "1488"))
                     .into(ava);
 
 
@@ -124,10 +124,10 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatsHolder>
 
             name.setText(chat.dialogDbEntity.getInterlocutor().getLogin());
 
-            if(chat.dialogDbEntity.getThereAreNewMsg())
+            /*if(chat.dialogDbEntity.getThereAreNewMsg())
                 newMsgFlag.setVisibility(View.VISIBLE);
-            else
-                newMsgFlag.setVisibility(View.GONE);
+            else*/
+            newMsgFlag.setVisibility(View.GONE);
         }
     }
 

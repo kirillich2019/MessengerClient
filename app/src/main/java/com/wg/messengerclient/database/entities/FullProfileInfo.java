@@ -3,6 +3,8 @@ package com.wg.messengerclient.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.wg.messengerclient.AddingPortToUrl;
+
 @Entity
 public class FullProfileInfo{
     @PrimaryKey(autoGenerate = true)
@@ -69,7 +71,7 @@ public class FullProfileInfo{
     }
 
     public String getAvatarUrl() {
-        return avatarUrl;
+        return this.avatarUrl;
     }
 
     public void setAvatarUrl(String avatarUrl) {

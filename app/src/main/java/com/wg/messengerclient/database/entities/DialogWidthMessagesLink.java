@@ -1,7 +1,6 @@
 package com.wg.messengerclient.database.entities;
 
 import androidx.room.Embedded;
-import androidx.room.Ignore;
 import androidx.room.Relation;
 import java.util.List;
 

@@ -103,6 +103,7 @@ public class CacheKeeper {
         return Observable.fromCallable(() -> {
             if (answer.getError() == 0) {
                 FullProfileInfo currentUser = fullProfileInfoDao.getFirstOrNull();
+
                 currentUser.setAvatarUrl(answer.getUrl());
                 fullProfileInfoDao.update(currentUser);
             }

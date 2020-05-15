@@ -15,6 +15,7 @@ import com.wg.messengerclient.long_pol_actions.GetActionsWorker;
 import com.wg.messengerclient.R;
 import com.wg.messengerclient.mvp_interfaces.ILoginView;
 import com.wg.messengerclient.presenters.LoginPresenter;
+import com.wg.messengerclient.presenters.messageSystem.MessageSystemSingleton;
 
 @SuppressLint("CheckResult")
 public class LoginActivity extends AppCompatActivity implements ILoginView {

@@ -2,6 +2,7 @@ package com.wg.messengerclient.presenters;
 
 import android.annotation.SuppressLint;
 
+import com.wg.messengerclient.AddingPortToUrl;
 import com.wg.messengerclient.activity_and_fargments.ShowingPhoto;
 import com.wg.messengerclient.mvp_interfaces.IProfileInfoView;
 import com.wg.messengerclient.server.Server;
@@ -52,7 +53,7 @@ public class ProfileInfoPresenter extends CacheKeeper {
                     );
                     
                     if(fullProfileInfoAnswer.getAvatarUrl() != null)
-                        view.setUserAvatar(fullProfileInfoAnswer.getAvatarUrl());
+                        view.setUserAvatar(AddingPortToUrl.addPort(fullProfileInfoAnswer.getAvatarUrl(), "1488"));
 
                 }, error -> view.showError("Не удалось найти данные профиля на локальном хранилище."));
     }
@@ -79,7 +80,8 @@ public class ProfileInfoPresenter extends CacheKeeper {
                     );
 
                     if(profileInfoAnswer.getAvatar() != null)
-                        view.setUserAvatar(profileInfoAnswer.getAvatar());
+                        view.setUserAvatar(AddingPortToUrl.addPort(profileInfoAnswer.getAvatar(), "1488"));
+
                 }, error -> view.showError("Не удалось подключиться к серверу."));
     }
 
@@ -90,7 +92,7 @@ public class ProfileInfoPresenter extends CacheKeeper {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fullProfileInfo -> {
                    if(fullProfileInfo.getAvatarUrl() != null){
-                       ShowingPhoto.ShowPhoto(view.getAppContext(), fullProfileInfo.getAvatarUrl());
+                       ShowingPhoto.ShowPhoto(view.getAppContext(), AddingPortToUrl.addPort(fullProfileInfo.getAvatarUrl(), "1488"));
                    }
                 });
     }
